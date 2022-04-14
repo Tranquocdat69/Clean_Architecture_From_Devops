@@ -1,0 +1,15 @@
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\bin\Debug\net6.0\Ordering.Domain.deps.json
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\bin\Debug\net6.0\Ordering.Domain.dll
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\bin\Debug\net6.0\Ordering.Domain.pdb
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\bin\Debug\net6.0\SharedKernel.dll
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\bin\Debug\net6.0\SharedKernel.pdb
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\Ordering.Domain.csproj.AssemblyReference.cache
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\Ordering.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\Ordering.Domain.AssemblyInfoInputs.cache
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\Ordering.Domain.AssemblyInfo.cs
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\Ordering.Domain.csproj.CoreCompileInputs.cache
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\Ordering.Domain.csproj.CopyComplete
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\Ordering.Domain.dll
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\refint\Ordering.Domain.dll
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\Ordering.Domain.pdb
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Ordering\Ordering.Domain\obj\Debug\net6.0\ref\Ordering.Domain.dll

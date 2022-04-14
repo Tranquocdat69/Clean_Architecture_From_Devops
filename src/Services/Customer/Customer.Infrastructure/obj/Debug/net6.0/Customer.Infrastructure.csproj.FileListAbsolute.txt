@@ -1,0 +1,5 @@
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Customer\Customer.Infrastructure\obj\Debug\net6.0\Customer.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Customer\Customer.Infrastructure\obj\Debug\net6.0\Customer.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Customer\Customer.Infrastructure\obj\Debug\net6.0\Customer.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Customer\Customer.Infrastructure\obj\Debug\net6.0\Customer.Infrastructure.AssemblyInfo.cs
+C:\Users\ngocth\Desktop\demo\CleanArchitecture\ECom\src\Services\Customer\Customer.Infrastructure\obj\Debug\net6.0\Customer.Infrastructure.csproj.CoreCompileInputs.cache
