@@ -1,4 +1,8 @@
+<<<<<<< HEAD:src/Services/Ordering/Ordering.App/DTOs/OrderItemDTO.cs
 ﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.DTOs
+=======
+﻿namespace ECom.Services.Ordering.App.DTOs
+>>>>>>> bcad93d (change customer to balance service + validator behavior):src/Services/Ordering/Ordering.App/Application/DTOs/OrderItemDTO.cs
 #nullable disable
 {
     public class OrderItemDTO

@@ -1,6 +1,6 @@
-﻿namespace FPTS.FIT.BDRD.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
+﻿namespace ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
 {
-    public class IntegrationEventsReplyHandler : IRingHandler<UpdateCreditLimitReplyEvent>
+    public class IntegrationReplyHandler : IRingHandler<UpdateCreditLimitReplyEvent>
     {
         public void OnEvent(UpdateCreditLimitReplyEvent data, long sequence, bool endOfBatch)
         {

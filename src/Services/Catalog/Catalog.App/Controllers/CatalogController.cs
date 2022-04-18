@@ -1,10 +1,19 @@
+<<<<<<< HEAD
 ﻿using FPTS.FIT.BDRD.Services.Catalog.App.Application.DTOs;
 using FPTS.FIT.BDRD.Services.Catalog.App.Application.Queries;
+=======
+﻿using ECom.Services.Catalog.App.Application.DTOs;
+using ECom.Services.Catalog.App.Application.Queries;
+>>>>>>> bcad93d (change customer to balance service + validator behavior)
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+<<<<<<< HEAD
 namespace FPTS.FIT.BDRD.Services.Catalog.App.Controllers
+=======
+namespace ECom.Services.Catalog.App.Controllers
+>>>>>>> bcad93d (change customer to balance service + validator behavior)
 {
     [Route("api/[controller]")]
     [ApiController]

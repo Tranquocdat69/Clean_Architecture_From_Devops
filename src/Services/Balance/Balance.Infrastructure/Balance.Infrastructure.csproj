@@ -19,12 +19,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Balance.Domain\Balance.Domain.csproj" />
+<<<<<<< HEAD:src/Services/Balance/Balance.Infrastructure/Balance.Infrastructure.csproj
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="SharedKernel">
       <HintPath>..\..\..\..\DLLs\SharedKernel.dll</HintPath>
     </Reference>
+=======
+>>>>>>> bcad93d (change customer to balance service + validator behavior):src/Services/Customer/Customer.Infrastructure/Customer.Infrastructure.csproj
   </ItemGroup>
 
 </Project>

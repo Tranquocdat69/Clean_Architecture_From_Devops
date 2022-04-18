@@ -1,4 +1,8 @@
+<<<<<<< HEAD:src/Services/Balance/Balance.Infrastructure/CustomerRepository.cs
 ﻿namespace FPTS.FIT.BDRD.Services.Balance.Infrastructure
+=======
+﻿namespace ECom.Services.Balance.Infrastructure
+>>>>>>> bcad93d (change customer to balance service + validator behavior):src/Services/Customer/Customer.Infrastructure/CustomerRepository.cs
 {
     public class UserRepository : IUserRepository
     {

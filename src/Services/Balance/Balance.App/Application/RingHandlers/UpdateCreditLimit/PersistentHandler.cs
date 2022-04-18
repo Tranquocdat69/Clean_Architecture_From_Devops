@@ -1,4 +1,4 @@
-﻿namespace FPTS.FIT.BDRD.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
+namespace ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
 {
     public class PersistentHandler : IRingHandler<UpdateCreditLimitPersistentEvent>
     {

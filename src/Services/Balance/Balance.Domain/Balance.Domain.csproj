@@ -1,20 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>FPTS.FIT.BDRD.Services.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <RootNamespace>ECom.Services.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FPTS.SharedKernel" Version="1.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="SharedKernel">
-      <HintPath>..\..\..\..\DLLs\SharedKernel.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\..\BuildingBlocks\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

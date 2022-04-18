@@ -2,9 +2,15 @@ global using MediatR;
 global using Confluent.Kafka;
 global using FluentValidation;
 global using FluentValidation.AspNetCore;
+<<<<<<< HEAD
+=======
+global using ECom.BuildingBlocks.SharedKernel.Interfaces;
+global using ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate.Rings;
+>>>>>>> bcad93d (change customer to balance service + validator behavior)
 global using Disruptor;
 global using Disruptor.Dsl;
 global using Microsoft.EntityFrameworkCore;
+<<<<<<< HEAD
 global using Microsoft.Extensions.Options;
 global using NetMQ;
 global using NetMQ.Sockets;
@@ -30,3 +36,14 @@ global using FPTS.FIT.BDRD.Services.Ordering.App.Application.Behaviors;
 global using FPTS.FIT.BDRD.Services.Ordering.App.BackgroundTasks;
 global using FPTS.FIT.BDRD.Services.Ordering.App.Application.Queries;
 global using FPTS.FIT.BDRD.Services.Ordering.Infrastructure;
+=======
+global using ECom.Services.Ordering.App.Application.Commands;
+global using ECom.Services.Ordering.App.DTOs;
+global using ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate;
+global using ECom.BuildingBlocks.MessageQueue.KafkaMessageQueue;
+global using Confluent.Kafka;
+global using ECom.Services.Ordering.App.Application.Integrations;
+global using ECom.Services.Ordering.Domain.Exceptions;
+global using ECom.Services.Ordering.App.Application.Validations;
+global using ECom.Services.Ordering.App.Application.Behaviors;
+>>>>>>> bcad93d (change customer to balance service + validator behavior)
