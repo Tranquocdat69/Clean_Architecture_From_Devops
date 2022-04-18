@@ -7,7 +7,7 @@
         public static IServiceCollection UseServiceCollectionConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             return services
-                .AddMediatR(typeof(CreateOrderCommand))
+                .AddMediatorConfiguration(configuration)
                 .AddLoggerConfiguration(configuration)
                 .AddPersistentConfiguration(configuration)
                 .AddOrderRingBuffer(configuration);
@@ -49,6 +49,14 @@
                 }
             });
             #endregion
+            return services;
+        }
+        private static IServiceCollection AddMediatorConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            services
+                .AddMediatR(typeof(CreateOrderCommand))
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssembly(typeof(CreateOrderCommandValidator).Assembly))
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
             return services;
         }
     }

@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Catalog.Infrastructure\Catalog.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extesions\" />
+  </ItemGroup>
+
 </Project>
