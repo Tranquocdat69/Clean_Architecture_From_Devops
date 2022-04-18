@@ -5,7 +5,6 @@ namespace ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate
 {
     public class OrderItem : BaseEntity
     {
-        public int Id { get; set; }
         private string _productName;
         private string _pictureUrl;
         private decimal _unitPrice;

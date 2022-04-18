@@ -10,7 +10,7 @@ namespace ECom.Services.Ordering.App.Extensions
             services.AddSingleton(sp =>
             {
                 var mediator = sp.GetRequiredService<IMediator>();
-                var disruptor = new Disruptor.Dsl.Disruptor<CreateOrderData>(() => new CreateOrderData(), 2048, TaskScheduler.Current, producerType: ProducerType.Multi, new BlockingWaitStrategy());
+                var disruptor = new Disruptor.Dsl.Disruptor<CreateOrderEvent>(() => new CreateOrderEvent(), 2048, TaskScheduler.Current, producerType: ProducerType.Multi, new BlockingWaitStrategy());
                 var logger = sp.GetRequiredService<ILogger<LogHandler>>();
                 disruptor.HandleEventsWith(new LogHandler())
                 .HandleEventsWith(new BusinessHandler())

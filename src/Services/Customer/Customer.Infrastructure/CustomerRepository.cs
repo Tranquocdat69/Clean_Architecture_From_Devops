@@ -1,7 +1,4 @@
-﻿using ECom.BuildingBlocks.SharedKernel.Interfaces;
-using Microsoft.Extensions.Logging;
-
-namespace ECom.Services.Customer.Infrastructure
+﻿namespace ECom.Services.Customer.Infrastructure
 {
     public class UserRepository : IUserRepository
     {

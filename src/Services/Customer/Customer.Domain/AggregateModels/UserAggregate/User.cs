@@ -3,14 +3,11 @@
 {
     public class User : BaseEntity, IAggregateRoot
     {
-        public User(int id, string name, decimal credit)
+        public User(string name, decimal credit)
         {
-            Id = id;
             Name = name;
             CreditLimit = credit;
         }
-
-        public int Id { get; private set; }
         public string Name { get; private set; }
         public decimal CreditLimit { get; private set; }
 

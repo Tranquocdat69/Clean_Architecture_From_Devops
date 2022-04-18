@@ -1,13 +1,16 @@
+using ECom.Services.Ordering.App.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.UseServiceCollectionConfiguration(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.UseApplicationConfiguration();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
