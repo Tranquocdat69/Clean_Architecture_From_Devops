@@ -1,15 +1,15 @@
 namespace ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder
 {
-    public class CustomerIntegrationHandler : IRingHandler<CreateOrderEvent>
+    public class BalanceIntegrationHandler : IRingHandler<CreateOrderEvent>
     {
         private const string PRODUCE_TOPIC = "customer-topic-command";
         private readonly KafkaProducer<string, string> _kafkaProducer;
         private readonly string _replyAddress;
 
-        public CustomerIntegrationHandler(KafkaProducer<string, string> kafkaProducer, string replyAddress)
+        public BalanceIntegrationHandler(KafkaProducer<string, string> kafkaProducer, string replyAddress)
         {
-            _kafkaProducer = kafkaProducer;
-            _replyAddress  = replyAddress;
+            _kafkaProducer     = kafkaProducer;
+            _replyAddress      = replyAddress;
         }
         public void OnEvent(CreateOrderEvent data, long sequence, bool endOfBatch)
         {
@@ -22,7 +22,8 @@ namespace ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder
                 userId: data.UserId,
                 replyAddress: _replyAddress
                 );
-            _kafkaProducer.Produce(new Message<string, string> { Value = integration.ToString() }, PRODUCE_TOPIC);
+            _kafkaProducer.Produce(new Message<string, string> { Value = integration.ToString(), Key = data.BalanceRequestId }, PRODUCE_TOPIC);
+
         }
     }
 }

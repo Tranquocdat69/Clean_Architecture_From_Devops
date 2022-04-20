@@ -10,15 +10,15 @@
         {
             _kafkaProducer     = kafkaProducer;
             _replyAddress      = replyAddress;
-        }
+    }
+
         public void OnEvent(CreateOrderEvent data, long sequence, bool endOfBatch)
         {
             var integration = new UpdateProductAvaibleStockIntegration(
                 productIds: data.OrderItems.Select(x => x.ProductId),
-                replyAddress: _replyAddress,
-                requestId: data.CatalogRequestId
+                replyAddress: _replyAddress
                 );
-            _kafkaProducer.Produce(new Message<string, string> { Value = integration.ToString() }, PRODUCE_TOPIC);
+            _kafkaProducer.Produce(new Message<string, string> { Value = integration.ToString() , Key = data.BalanceRequestId}, PRODUCE_TOPIC);
         }
     }
 }

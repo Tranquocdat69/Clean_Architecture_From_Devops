@@ -3,15 +3,13 @@
 {
     public class UpdateProductAvaibleStockIntegration
     {
-        public UpdateProductAvaibleStockIntegration(IEnumerable<int> productIds, string requestId, string replyAddress)
+        public UpdateProductAvaibleStockIntegration(IEnumerable<int> productIds, string replyAddress)
         {
             ProductIds = productIds;
-            RequestId = requestId;
             ReplyAddress = replyAddress;
         }
 
         public IEnumerable<int> ProductIds { get;}
-        public string RequestId { get;}
         public string ReplyAddress { get;}
 
         /// <summary>
@@ -20,7 +18,8 @@
         /// <returns></returns>
         public override string ToString()
         {
-            return "";
+            string ids = string.Join(",", ProductIds);
+            return "{\"ProductIds\":["+ids+"],\"ReplyAddress\":\"\"}";
         }
     }
 }

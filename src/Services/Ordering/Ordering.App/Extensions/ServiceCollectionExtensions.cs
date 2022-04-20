@@ -7,7 +7,8 @@
         public static IServiceCollection UseServiceCollectionConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             return services
-                .AddMediatorConfiguration(configuration)
+                .AddMediatorConfiguration()
+                .AddKafkaConfiguration(configuration)
                 .AddLoggerConfiguration(configuration)
                 .AddPersistentConfiguration(configuration)
                 .AddOrderRingBuffer(configuration);
@@ -32,7 +33,6 @@
             });
             return services;
         }
-
         private static IServiceCollection AddPersistentConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             #region DbContext Configuration
@@ -51,12 +51,32 @@
             #endregion
             return services;
         }
-        private static IServiceCollection AddMediatorConfiguration(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddMediatorConfiguration(this IServiceCollection services)
         {
             services
                 .AddMediatR(typeof(CreateOrderCommand))
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssembly(typeof(CreateOrderCommandValidator).Assembly))
                 .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+            return services;
+        }
+        private static IServiceCollection AddKafkaConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<InMemoryRequestManagement>();
+            services.AddSingleton(sp => {
+                KafkaProducerConfig config = new KafkaProducerConfig
+                {
+                    BootstrapServers = configuration["Kafka:BootstrapServers"]
+                };
+                return new KafkaProducer<Null, string>(config);
+            });
+
+            services.AddSingleton(sp => {
+                KafkaProducerConfig config = new KafkaProducerConfig
+                {
+                    BootstrapServers = configuration["Kafka:BootstrapServers"]
+                };
+                return new KafkaProducer<string, string>(config);
+            });
             return services;
         }
     }

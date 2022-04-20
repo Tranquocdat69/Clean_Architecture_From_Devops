@@ -20,7 +20,7 @@
         /// <returns></returns>
         public override string ToString()
         {
-            return "";
+            return "{\"TotalCost\":"+TotalCost+",\"UserId\":"+UserId+",\"ReplyAddress\":\""+ReplyAddress+"\"}";
         }
     }
 }

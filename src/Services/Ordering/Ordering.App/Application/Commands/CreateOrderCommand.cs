@@ -2,7 +2,7 @@
 namespace ECom.Services.Ordering.App.Application.Commands
 #nullable disable
 {
-    public class CreateOrderCommand : IRequest<(string, bool)>
+    public class CreateOrderCommand : IRequest<ResponseData>
     {
         private readonly IEnumerable<OrderItemDTO> _orderItems;
 

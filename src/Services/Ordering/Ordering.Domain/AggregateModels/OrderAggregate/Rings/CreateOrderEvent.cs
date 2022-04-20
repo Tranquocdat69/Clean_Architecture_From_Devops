@@ -7,6 +7,6 @@
         public IEnumerable<OrderItem> OrderItems { get; set; }
         public int UserId { get; set; }
         public string CatalogRequestId { get; set; }
-        public string CustomerRequestId { get; set; }
-    }
+        public string BalanceRequestId { get; set; }
+    }   
 }

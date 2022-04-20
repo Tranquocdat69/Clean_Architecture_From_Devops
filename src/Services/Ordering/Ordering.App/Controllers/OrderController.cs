@@ -20,5 +20,12 @@ namespace ECom.Services.Ordering.App.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+
+        [HttpPost("demo")]
+        public IActionResult Demo()
+        {
+            var demo = new UpdateProductAvaibleStockIntegration(new List<int>() { 1, 2, 3 }, "đemo", "123");
+            return Ok(demo.ToString());
+        }
     }
 }

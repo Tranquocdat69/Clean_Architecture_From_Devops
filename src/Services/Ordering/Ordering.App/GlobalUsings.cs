@@ -18,3 +18,5 @@ global using ECom.Services.Ordering.App.Application.Integrations;
 global using ECom.Services.Ordering.Domain.Exceptions;
 global using ECom.Services.Ordering.App.Application.Validations;
 global using ECom.Services.Ordering.App.Application.Behaviors;
+global using ECom.BuildingBlocks.MessageQueue.KafkaMessageQueue.Configs;
+global using System.Text.RegularExpressions;

@@ -1,5 +1,4 @@
 ﻿using ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder;
-using ECom.Services.Ordering.App.Application.RingHandlers.CreateOrderEvent;
 
 namespace ECom.Services.Ordering.App.Extensions
 {
@@ -14,7 +13,7 @@ namespace ECom.Services.Ordering.App.Extensions
                 var logger = sp.GetRequiredService<ILogger<LogHandler>>();
                 disruptor.HandleEventsWith(new LogHandler())
                 .HandleEventsWith(new BusinessHandler())
-                .HandleEventsWith(new CustomerIntegrationHandler(), new CatalogIntegrationHandler())
+                //.HandleEventsWith(new CustomerIntegrationHandler(), new CatalogIntegrationHandler())
                 .HandleEventsWith(new PersistentHandler());
                 return disruptor.Start();
             });
