@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Reference Include="SharedKernel">
-      <HintPath>..\..\..\BuildingBlocks\SharedKernel.dll</HintPath>
+      <HintPath>..\..\..\..\DLLs\SharedKernel.dll</HintPath>
     </Reference>
   </ItemGroup>
 

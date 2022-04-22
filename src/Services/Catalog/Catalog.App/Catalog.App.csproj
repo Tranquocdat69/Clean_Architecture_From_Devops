@@ -28,13 +28,13 @@
 
   <ItemGroup>
     <Reference Include="KafkaLogger">
-      <HintPath>..\..\..\BuildingBlocks\KafkaLogger.dll</HintPath>
+      <HintPath>..\..\..\..\DLLs\KafkaLogger.dll</HintPath>
     </Reference>
     <Reference Include="KafkaMessageQueue">
-      <HintPath>..\..\..\BuildingBlocks\KafkaMessageQueue.dll</HintPath>
+      <HintPath>..\..\..\..\DLLs\KafkaMessageQueue.dll</HintPath>
     </Reference>
     <Reference Include="SharedKernel">
-      <HintPath>..\..\..\BuildingBlocks\SharedKernel.dll</HintPath>
+      <HintPath>..\..\..\..\DLLs\SharedKernel.dll</HintPath>
     </Reference>
   </ItemGroup>
 
