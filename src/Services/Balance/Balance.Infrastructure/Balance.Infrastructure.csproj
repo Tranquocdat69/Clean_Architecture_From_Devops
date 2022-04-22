@@ -30,4 +30,10 @@
 >>>>>>> bcad93d (change customer to balance service + validator behavior):src/Services/Customer/Customer.Infrastructure/Customer.Infrastructure.csproj
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="SharedKernel">
+      <HintPath>..\..\..\BuildingBlocks\SharedKernel.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

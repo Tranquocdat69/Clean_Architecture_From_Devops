@@ -9,14 +9,10 @@ namespace FPTS.FIT.BDRD.Services.Ordering.App.Extensions
         public static IServiceCollection UseServiceCollectionConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             return services
-<<<<<<< HEAD
                 .AddHostedService<ReceiveReplyTasks>()
                 .AddMediatorConfiguration()
                 .AddConfigurationOptions(configuration)
                 .AddKafkaConfiguration(configuration)
-=======
-                .AddMediatorConfiguration(configuration)
->>>>>>> bcad93d (change customer to balance service + validator behavior)
                 .AddLoggerConfiguration(configuration)
                 .AddPersistanceConfiguration(configuration)
                 .AddOrderRingBuffer(configuration)
@@ -76,16 +72,11 @@ namespace FPTS.FIT.BDRD.Services.Ordering.App.Extensions
             #endregion
             return services;
         }
-<<<<<<< HEAD
         private static IServiceCollection AddMediatorConfiguration(this IServiceCollection services)
-=======
-        private static IServiceCollection AddMediatorConfiguration(this IServiceCollection services, IConfiguration configuration)
->>>>>>> bcad93d (change customer to balance service + validator behavior)
         {
             services
                 .AddMediatR(typeof(CreateOrderCommand))
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssembly(typeof(CreateOrderCommandValidator).Assembly))
-<<<<<<< HEAD
                 .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>))
                 .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggerBehavior<,>));
             return services;
@@ -114,9 +105,6 @@ namespace FPTS.FIT.BDRD.Services.Ordering.App.Extensions
         private static IServiceCollection AddConfigurationOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<OrderingSettings>(configuration.GetSection("OrderingSetting"));
-=======
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
->>>>>>> bcad93d (change customer to balance service + validator behavior)
             return services;
         }
     }

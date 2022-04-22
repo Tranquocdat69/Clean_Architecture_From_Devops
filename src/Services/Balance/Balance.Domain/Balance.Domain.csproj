@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\SharedKernel\SharedKernel.csproj" />
+    <Reference Include="SharedKernel">
+      <HintPath>..\..\..\BuildingBlocks\SharedKernel.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

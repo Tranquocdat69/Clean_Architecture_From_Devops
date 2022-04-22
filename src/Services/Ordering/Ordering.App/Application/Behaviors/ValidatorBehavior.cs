@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 ﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.Behaviors
-=======
-﻿namespace ECom.Services.Ordering.App.Application.Behaviors
->>>>>>> bcad93d (change customer to balance service + validator behavior)
 {
     public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>

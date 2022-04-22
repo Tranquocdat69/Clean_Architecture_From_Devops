@@ -26,7 +26,6 @@
     <Folder Include="Extesions\" />
   </ItemGroup>
 
-<<<<<<< HEAD
   <ItemGroup>
     <Reference Include="KafkaLogger">
       <HintPath>..\..\..\..\DLLs\KafkaLogger.dll</HintPath>
@@ -39,6 +38,4 @@
     </Reference>
   </ItemGroup>
 
-=======
->>>>>>> bcad93d (change customer to balance service + validator behavior)
 </Project>
