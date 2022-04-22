@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\SharedKernel\SharedKernel.csproj" />
+    <Folder Include="AggregateModels\CatalogAggregate\Events\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AggregateModels\CatalogAggregate\Events\" />
+    <Reference Include="SharedKernel">
+      <HintPath>..\..\..\BuildingBlocks\SharedKernel.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

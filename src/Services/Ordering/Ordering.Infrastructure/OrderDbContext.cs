@@ -1,6 +1,4 @@
-﻿using ECom.BuildingBlocks.SharedKernel.Extensions;
-
-namespace ECom.Services.Ordering.Infrastructure
+﻿namespace ECom.Services.Ordering.Infrastructure
 #nullable disable
 {
     public class OrderDbContext : DbContext, IUnitOfWork

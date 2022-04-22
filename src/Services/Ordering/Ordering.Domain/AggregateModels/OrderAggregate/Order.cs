@@ -8,16 +8,14 @@ public class Order : BaseEntity, IAggregateRoot
     private readonly List<OrderItem> _orderItems;
     public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
-    public Order(int cusId, Address add)
+    public Order(int cusId, Address add) : this()
     {
         CustomerId = cusId;
         Address = add;
         OrderDate = DateTime.Now;
-
-        AddOrderCreatedEvent();
     }
 
-    public Order()
+    protected Order()
     {
         _orderItems = new List<OrderItem>();
     }
@@ -51,8 +49,27 @@ public class Order : BaseEntity, IAggregateRoot
         }
     }
 
-    private void AddOrderCreatedEvent()
+    public void SetOrderConfirmed()
     {
-        throw new NotImplementedException();
+        var @event = new OrderConfirmedDomainEvent(this);
+        AddDomainEvent(@event);
+    }
+
+    public void SetOrderRejected(string topic)
+    {
+        var total                        = OrderItems.Sum(x => x.GetUnits() + x.GetUnitPrice());
+        IDictionary<int,int> itemSummary = OrderItems.ToDictionary(x => x.ProductId, x => x.GetUnits());
+        var @event                       = new OrderRejectedDomainEvent(CustomerId, total, itemSummary, topic);
+        AddDomainEvent(@event);
+    }
+    /// <summary>
+    /// {"ProductName":"12","PictureUrl":"12","UnitPrice":1,"Discount":1,"Units":1,"ProductId":1},
+    /// {"ProductName":"12","PictureUrl":"12","UnitPrice":1,"Discount":1,"Units":1,"ProductId":1}
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        var orderItems = string.Join(",",_orderItems.Select(x => x.ToString()));
+        return "{\"OrderDate\":\""+OrderDate.ToString()+"\",\"Address\":"+Address.ToString()+",\"CustomerId\":"+CustomerId+",\"OrderItems\":["+orderItems+"]}";
     }
 }

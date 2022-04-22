@@ -1,7 +1,7 @@
 ﻿namespace ECom.Services.Ordering.App.Application.Integrations
 #nullable disable
 {
-    public class UpdateCreditLimitIntegration
+    public class UpdateCreditLimitIntegration : IIntegration
     {
         public UpdateCreditLimitIntegration(decimal totalCost, int userId, string replyAddress)
         {

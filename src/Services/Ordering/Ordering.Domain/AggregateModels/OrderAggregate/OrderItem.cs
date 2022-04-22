@@ -73,5 +73,10 @@ namespace ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate
 
             _units += units;
         }
+
+        public override string ToString()
+        {
+            return "{\"ProductName\":\""+_productName+"\",\"PictureUrl\":"+_pictureUrl+",\"UnitPrice\":"+_unitPrice+",\"Discount\":"+_discount+",\"Units\":"+_units+",\"ProductId\":"+ProductId+"}";
+        }
     }
 }

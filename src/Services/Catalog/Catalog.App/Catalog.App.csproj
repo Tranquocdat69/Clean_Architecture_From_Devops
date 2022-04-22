@@ -12,6 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
+    <PackageReference Include="Disruptor" Version="4.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
@@ -22,6 +24,18 @@
 
   <ItemGroup>
     <Folder Include="Extesions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="KafkaLogger">
+      <HintPath>..\..\..\BuildingBlocks\KafkaLogger.dll</HintPath>
+    </Reference>
+    <Reference Include="KafkaMessageQueue">
+      <HintPath>..\..\..\BuildingBlocks\KafkaMessageQueue.dll</HintPath>
+    </Reference>
+    <Reference Include="SharedKernel">
+      <HintPath>..\..\..\BuildingBlocks\SharedKernel.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

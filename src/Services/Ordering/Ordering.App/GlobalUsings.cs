@@ -20,3 +20,7 @@ global using ECom.Services.Ordering.App.Application.Validations;
 global using ECom.Services.Ordering.App.Application.Behaviors;
 global using ECom.BuildingBlocks.MessageQueue.KafkaMessageQueue.Configs;
 global using System.Text.RegularExpressions;
+global using ECom.BuildingBlocks.SharedKernel.Extensions;
+global using ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate.Events;
+global using NetMQ;
+global using NetMQ.Sockets;

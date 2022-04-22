@@ -12,8 +12,6 @@ namespace ECom.Services.Catalog.Domain.AggregateModels.CatalogAggregate
             AvailableStock = quantity;
             Price = price;
         }
-
-        public int Id { get; private set; }
         public string Name { get; private set; }
         public int AvailableStock { get; private set; }
         public double Price { get; private set; }

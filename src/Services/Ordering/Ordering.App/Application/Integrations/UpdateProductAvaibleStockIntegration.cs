@@ -1,15 +1,15 @@
 ﻿namespace ECom.Services.Ordering.App.Application.Integrations
 #nullable disable
 {
-    public class UpdateProductAvaibleStockIntegration
+    public class UpdateProductAvaibleStockIntegration : IIntegration
     {
-        public UpdateProductAvaibleStockIntegration(IEnumerable<int> productIds, string replyAddress)
+        public UpdateProductAvaibleStockIntegration(IDictionary<int, int> items, string replyAddress)
         {
-            ProductIds = productIds;
+            OrderItems = items;
             ReplyAddress = replyAddress;
         }
 
-        public IEnumerable<int> ProductIds { get;}
+        public IDictionary<int, int> OrderItems { get;}
         public string ReplyAddress { get;}
 
         /// <summary>
@@ -18,8 +18,9 @@
         /// <returns></returns>
         public override string ToString()
         {
-            string ids = string.Join(",", ProductIds);
-            return "{\"ProductIds\":["+ids+"],\"ReplyAddress\":\"\"}";
+            var items  = OrderItems.Select(d => string.Format("\"{0}\": {1}", d.Key, d.Value));
+            string ids = string.Join(",", items);
+            return "{\"OrderItems\":{" + ids+"},\"ReplyAddress\":\""+ReplyAddress+"\"}";
         }
     }
 }

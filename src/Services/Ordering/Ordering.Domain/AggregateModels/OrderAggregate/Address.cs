@@ -11,5 +11,10 @@
             Street = street;
             City = city;
         }
+
+        public override string ToString()
+        {
+            return "{\"Street\":\""+Street+"\",\"City\":\""+City+"\"}";
+        }
     }
 }

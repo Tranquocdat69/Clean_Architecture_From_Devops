@@ -1,4 +1,6 @@
-﻿namespace ECom.Services.Ordering.App.Extensions
+﻿using ECom.Services.Ordering.App.BackgroundTasks;
+
+namespace ECom.Services.Ordering.App.Extensions
 #nullable disable
 {
     public static class ServiceCollectionExtensions
@@ -7,11 +9,13 @@
         public static IServiceCollection UseServiceCollectionConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             return services
+                .AddHostedService<ReceiveReplyTasks>()
                 .AddMediatorConfiguration()
                 .AddKafkaConfiguration(configuration)
                 .AddLoggerConfiguration(configuration)
                 .AddPersistentConfiguration(configuration)
-                .AddOrderRingBuffer(configuration);
+                .AddOrderRingBuffer(configuration)
+                .AddScopeService();
         }
 
         private static IServiceCollection AddLoggerConfiguration(this IServiceCollection services, IConfiguration configuration)
@@ -77,6 +81,11 @@
                 };
                 return new KafkaProducer<string, string>(config);
             });
+            return services;
+        }
+        private static IServiceCollection AddScopeService(this IServiceCollection services)
+        {
+            services.AddScoped<IOrderRepository, OrderRepository>();
             return services;
         }
     }
