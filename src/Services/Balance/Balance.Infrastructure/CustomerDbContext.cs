@@ -3,17 +3,18 @@
 namespace FPTS.FIT.BDRD.Services.Balance.Infrastructure
 =======
 ﻿using ECom.BuildingBlocks.SharedKernel.Extensions;
+
 namespace ECom.Services.Balance.Infrastructure
 >>>>>>> bcad93d (change customer to balance service + validator behavior):src/Services/Customer/Customer.Infrastructure/CustomerDbContext.cs
 #nullable disable
 {
-    public class BalanceDbContext : DbContext, IUnitOfWork
+    public class CustomerDbContext : DbContext, IUnitOfWork
     {
         public const string DEFAULT_SCHEMA = "Balance";
         private readonly IMediator _mediator;
 
         public DbSet<User> Orders { get; set; }
-        public BalanceDbContext(DbContextOptions<BalanceDbContext> options, IMediator mediator) : base(options)
+        public CustomerDbContext(DbContextOptions<CustomerDbContext> options, IMediator mediator) : base(options)
         {
             _mediator = mediator;
         }
@@ -22,7 +23,7 @@ namespace ECom.Services.Balance.Infrastructure
         {
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
         }
-
+      
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
             // Dispatch Domain Events collection. 

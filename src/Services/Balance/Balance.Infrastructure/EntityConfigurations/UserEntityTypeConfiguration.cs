@@ -8,7 +8,7 @@ class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> userConfiguration)
     {
-        userConfiguration.ToTable("user", BalanceDbContext.DEFAULT_SCHEMA);
+        userConfiguration.ToTable("user", UserDbContext.DEFAULT_SCHEMA);
 
         userConfiguration.HasKey(u => u.Id);
 
