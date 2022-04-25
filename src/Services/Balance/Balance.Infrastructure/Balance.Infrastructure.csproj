@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <RootNamespace>FPTS.FIT.BDRD.Services.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <Nullable>disable</Nullable>
+    <RootNamespace>ECom.Services.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,25 +15,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Balance.Domain\Balance.Domain.csproj" />
-<<<<<<< HEAD:src/Services/Balance/Balance.Infrastructure/Balance.Infrastructure.csproj
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="SharedKernel">
-      <HintPath>..\..\..\..\DLLs\SharedKernel.dll</HintPath>
-    </Reference>
-=======
->>>>>>> bcad93d (change customer to balance service + validator behavior):src/Services/Customer/Customer.Infrastructure/Customer.Infrastructure.csproj
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="SharedKernel">
-      <HintPath>..\..\..\BuildingBlocks\SharedKernel.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

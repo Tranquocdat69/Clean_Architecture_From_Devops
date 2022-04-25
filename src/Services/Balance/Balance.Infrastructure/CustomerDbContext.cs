@@ -1,11 +1,7 @@
-<<<<<<< HEAD:src/Services/Balance/Balance.Infrastructure/CustomerDbContext.cs
-﻿using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel.Extensions;
-namespace FPTS.FIT.BDRD.Services.Balance.Infrastructure
-=======
+
 ﻿using ECom.BuildingBlocks.SharedKernel.Extensions;
 
 namespace ECom.Services.Balance.Infrastructure
->>>>>>> bcad93d (change customer to balance service + validator behavior):src/Services/Customer/Customer.Infrastructure/CustomerDbContext.cs
 #nullable disable
 {
     public class CustomerDbContext : DbContext, IUnitOfWork

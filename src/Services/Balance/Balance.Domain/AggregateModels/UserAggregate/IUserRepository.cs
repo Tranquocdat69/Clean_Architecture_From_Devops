@@ -4,9 +4,7 @@
 ﻿namespace ECom.Services.Balance.Domain.AggregateModels.UserAggregate
 >>>>>>> bcad93d (change customer to balance service + validator behavior)
 {
-    public interface IUserRepository : IRepositoryBase<User>
+    public interface IUserRepository : IKeyValuePairRepository<InMemoryUser, int>
     {
-        void Update(User Balance);
-        User Get(int id);
     }
 }

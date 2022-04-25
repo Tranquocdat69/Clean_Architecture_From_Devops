@@ -8,7 +8,7 @@ class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> userConfiguration)
     {
-        userConfiguration.ToTable("user", UserDbContext.DEFAULT_SCHEMA);
+        userConfiguration.ToTable("userbalance");
 
         userConfiguration.HasKey(u => u.Id);
 
@@ -20,6 +20,7 @@ class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName("User_Name");
 
         userConfiguration.Property(u => u.CreditLimit)
-            .HasColumnName("Credit_Limit");
+            .HasColumnName("Credit_Limit")
+            .HasColumnType("decimal(18,0)");
     }
 }
