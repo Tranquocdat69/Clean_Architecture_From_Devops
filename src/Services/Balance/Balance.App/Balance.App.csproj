@@ -8,14 +8,33 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Application\Validations\**" />
+	  <Compile Remove="BackgroundTasks\**" />
+	  <Content Remove="Application\Validations\**" />
+	  <Content Remove="BackgroundTasks\**" />
+	  <EmbeddedResource Remove="Application\Validations\**" />
+	  <EmbeddedResource Remove="BackgroundTasks\**" />
+	  <None Remove="Application\Validations\**" />
+	  <None Remove="BackgroundTasks\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Remove="C:\Users\FITTHUCTAP20\.nuget\packages\fpts.eventbus.kafka\1.0.1\contentFiles\any\net6.0\fpts.png" />
+	  <Content Remove="C:\Users\FITTHUCTAP20\.nuget\packages\fpts.logger.kafka\1.0.1\contentFiles\any\net6.0\fpts.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Confluent.Kafka" Version="1.8.2" />
 		<PackageReference Include="Disruptor" Version="4.0.0" />
+		<PackageReference Include="FPTS.EventBus.Kafka" Version="1.0.1" />
+		<PackageReference Include="FPTS.Logger.Kafka" Version="1.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.4" />
 		<PackageReference Include="NetMQ" Version="4.0.1.8" />
+		<PackageReference Include="Oracle.EntityFrameworkCore" Version="6.21.5" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
 	</ItemGroup>
@@ -23,22 +42,6 @@
 	<ItemGroup> 
 		<ProjectReference Include="..\Balance.Domain\Balance.Domain.csproj" />
 		<ProjectReference Include="..\Balance.Infrastructure\Balance.Infrastructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Application\Validations\" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="KafkaLogger">
-			<HintPath>..\..\..\BuildingBlocks\KafkaLogger.dll</HintPath>
-		</Reference>
-		<Reference Include="KafkaMessageQueue">
-			<HintPath>..\..\..\BuildingBlocks\KafkaMessageQueue.dll</HintPath>
-		</Reference>
-		<Reference Include="SharedKernel">
-			<HintPath>..\..\..\BuildingBlocks\SharedKernel.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 
 </Project>

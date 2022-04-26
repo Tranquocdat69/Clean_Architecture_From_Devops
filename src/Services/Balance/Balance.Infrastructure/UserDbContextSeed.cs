@@ -4,52 +4,49 @@ namespace ECom.Services.Balance.Infrastructure
 {
     public class UserDbContextSeed
     {
-        public async Task SeedAsync(UserDbContext userDbContext, IUserRepository userRepository, IHostEnvironment env, int numberOfLogHandlers, int numberOfReplyHandlers)
+        public static long CurrentCommandTopicOffset = -1;
+
+        public async Task SeedAsync(UserDbContext userDbContext, IUserRepository userRepository, IHostEnvironment env)
         {
             string contentRootPath = env.ContentRootPath.Replace("Balance.App", "Balance.Infrastructure");
-            
+
+            if (userDbContext.KafkaOffsets.Any())
+            {
+                KafkaOffset kafkaOffset = userDbContext.KafkaOffsets.FirstOrDefault();
+                CurrentCommandTopicOffset = kafkaOffset.CommandOffset + 1;
+            }
+            else
+            {
+                KafkaOffset kafkaOffset = new()
+                {
+                    CommandOffset = -1,
+                    PersistentOffset = 1
+                };
+                userDbContext.KafkaOffsets.Add(kafkaOffset);
+                userDbContext.SaveChanges();
+
+                CurrentCommandTopicOffset = kafkaOffset.CommandOffset + 1;
+            }
+
             if (userDbContext.Users.Any())
             {
                 IEnumerable<User> users = await userDbContext.Users.ToListAsync();
-                InitInMemoryUsers(userRepository, users, numberOfLogHandlers, numberOfReplyHandlers);
+                InitInMemoryUsers(userRepository, users);
             }
             else
             {
                 IEnumerable<User> users = GetCustomerBalances(contentRootPath);
                 userDbContext.Users.AddRange(users);
                 userDbContext.SaveChanges();
-                InitInMemoryUsers(userRepository, users, numberOfLogHandlers, numberOfReplyHandlers);
+                InitInMemoryUsers(userRepository, users);
             }
         }
 
-        private void InitInMemoryUsers(IUserRepository userRepository, IEnumerable<User> users, int numberOfLogHandlers, int numberOfReplyHandlers)
+        private void InitInMemoryUsers(IUserRepository userRepository, IEnumerable<User> users)
         {
-            int currentLogHandler = 1;
-            int currentReplyHandler = 1;
-
             foreach (var u in users)
             {
-                userRepository.Add(u.Id, new InMemoryUser()
-                {
-                    UserId = u.Id,
-                    Username = u.Name,
-                    CreditLimit = u.CreditLimit,
-                    LogHandlerId = currentLogHandler,
-                    ReplyHandlerId = currentReplyHandler,
-                });
-
-                currentLogHandler++;
-                currentReplyHandler++;
-
-                if (currentLogHandler > numberOfLogHandlers)
-                {
-                    currentLogHandler = 1;
-                }
-
-                if (currentReplyHandler > numberOfReplyHandlers)
-                {
-                    currentReplyHandler = 1;
-                }
+                userRepository.Add(u.Id, new User(u.Id, u.Name, u.CreditLimit));
             }
         }
 
@@ -70,9 +67,9 @@ namespace ECom.Services.Balance.Infrastructure
         private IEnumerable<User> CreateDefaultUsers()
         {
             return new List<User>(){
-                new User("user 01",100),
-                new User("user 02",100),
-                new User("user 03",100),
+                new User(1,"user 01",100),
+                new User(2, "user 02",100),
+                new User(3, "user 03",100),
             };
         }
 
@@ -81,9 +78,6 @@ namespace ECom.Services.Balance.Infrastructure
             string[] splits = line.Split(",");
             string rawUsername = splits[0];
             string rawCrediteLimit = splits[1];
-
-            //int indexOfPrefixUsername = rawUsername.IndexOf("C");
-            //int userId = Int32.Parse(rawUsername.Substring(indexOfPrefixUsername + 1));
             decimal creditLimit = decimal.Parse(rawCrediteLimit);
 
             return new User(rawUsername, creditLimit);

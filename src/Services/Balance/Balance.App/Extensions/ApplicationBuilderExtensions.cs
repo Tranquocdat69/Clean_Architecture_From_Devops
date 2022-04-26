@@ -1,57 +1,113 @@
-
-﻿using ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit;
+﻿using ECom.Services.Balance.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECom.Services.Balance.App.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-        /*public static IHost InitBalanceRingBuffer(this IHost host, IConfiguration configuration)
+        public static IHost MigrateDbContext<TContext>(this IHost host, Action<TContext, IServiceProvider> seeder)
+            where TContext : DbContext
         {
-            var serviceProvider = new ServiceCollection().BuildServiceProvider();
-            var logger = serviceProvider.GetRequiredService<ILogger<LogHandler>>();
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetService<TContext>();
+                var configuration = services.GetService<IConfiguration>();
+                var logger = services.GetRequiredService<ILogger<TContext>>();
+                try
+                {
+                    InvokeSeeder(seeder, context, services, configuration);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while migrating the database used on context {DbContextName}", typeof(TContext).Name);
+                    throw;
+                }
+            }
+            return host;
+        }
 
-            var inputRingSize = Int32.Parse(configuration.GetSection("Disruptor").GetSection("InputRingSize").Value);
-            var persistentRingSize = Int32.Parse(configuration.GetSection("Disruptor").GetSection("PersistentRingSize").Value);
-            var replyRingSize = Int32.Parse(configuration.GetSection("Disruptor").GetSection("ReplyRingSize").Value);
-            var numberOfLogHandlers = Int32.Parse(configuration.GetSection("Disruptor").GetSection("NumberOfLogHandlers").Value);
-            var numberOfReplyHandlers = Int32.Parse(configuration.GetSection("Disruptor").GetSection("NumberOfReplyHandlers").Value);
+        private static void InvokeSeeder<TContext>(Action<TContext, IServiceProvider> seeder, TContext? context, IServiceProvider serviceProvider, IConfiguration configuration)
+            where TContext : DbContext
+        {
+            var connectionString = configuration.GetConnectionString(ServiceCollectionExtensions.DB_CONNECTION_KEY);
 
-            var inputDisruptor = new Disruptor<UpdateCreditLimitEvent>(() => new UpdateCreditLimitEvent(), inputRingSize);
-            var persistentDisruptor = new Disruptor<UpdateCreditLimitPersistentEvent>(() => new UpdateCreditLimitPersistentEvent(), persistentRingSize);
-            var replyDisruptor = new Disruptor<UpdateCreditLimitReplyEvent>(() => new UpdateCreditLimitReplyEvent(), replyRingSize);
+            if (context != null)
+            {
+                if (!String.IsNullOrEmpty(connectionString))
+                {
+                    context.Database.Migrate();
+                }
+                seeder(context, serviceProvider);
+            }
+        }
 
-            inputDisruptor.HandleEventsWith(GetLogHandlers(logger, numberOfLogHandlers))
-            .Then(new BusinessHandler());
-            replyDisruptor.HandleEventsWith(GetReplyHandlers(numberOfReplyHandlers));
-
-            inputDisruptor.Start();
-            persistentDisruptor.Start();
-            replyDisruptor.Start();
+        public static IHost InitConsumeMessageFromTopicKafka(this IHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                IServiceProvider serviceProvider = scope.ServiceProvider;
+                InvokeConsumer(serviceProvider);
+            }
 
             return host;
         }
 
-        private static LogHandler[] GetLogHandlers(ILogger<LogHandler> logger, int size)
+        private static void InvokeConsumer(IServiceProvider serviceProvider)
         {
-            LogHandler[] logHandlers = new LogHandler[size];
+            IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            string topic = configuration.GetSection("Kafka").GetSection("CommandTopic").Value;
+            int numberOfDeserializeHandlers = Int32.Parse(configuration.GetSection("Disruptor").GetSection("NumberOfDeserializeHandlers").Value);
+            int partition = 0;
+            int currentDesializeHandler = 0;
+            var consumeService = serviceProvider.GetRequiredService<IKafkaSubcriberService<string, string>>();
+            var inputRing = serviceProvider.GetRequiredService<RingBuffer<UpdateCreditLimitRingEvent>>();
 
-            for (int i = 0; i < size; i++)
-            {
-                logHandlers[i] = new LogHandler(logger, i + 1);
-            }
-
-            return logHandlers;
+            StartConsumeThenPublishMessageIntoRing(
+                consumeService,
+                inputRing,
+                currentDesializeHandler,
+                numberOfDeserializeHandlers,
+                topic,
+                UserDbContextSeed.CurrentCommandTopicOffset,
+                partition);
         }
-        private static IntegrationReplyHandler[] GetReplyHandlers(int size)
-        {
-            IntegrationReplyHandler[] replyHandlers = new IntegrationReplyHandler[size];
 
-            for (int i = 0; i < size; i++)
+        private static void StartConsumeThenPublishMessageIntoRing(
+            IKafkaSubcriberService<string, string> consumeService,
+            RingBuffer<UpdateCreditLimitRingEvent> inputRing,
+            int currentDesializeHandler,
+            int numberOfDeserializeHandlers,
+            string topic,
+            long currentOffset,
+            int partition)
+        {
+            consumeService.StartConsumeTask(record =>
             {
-                replyHandlers[i] = new IntegrationReplyHandler(i + 1);
+                if (record != null)
+                {
+                    long sequence = inputRing.Next();
+                    var data = inputRing[sequence];
+                    data.Offset = record.Offset.Value;
+                    data.IsCompensatedMessage = record.Message.Key.Contains("command") ? false : true;
+                    data.UpdateCreditLimitCommandString = record.Message.Value;
+                    data.RequestId = record.Message.Key.Replace("command", "");
+                    data.DeserializeHandlerId = GetCurrentDeserializeHandlerId(ref currentDesializeHandler, numberOfDeserializeHandlers);
+                    data.SequenceRing = sequence;
+                    inputRing.Publish(sequence);
+                }
+            }, topic, currentOffset, partition, default);
+        }
+
+        private static int GetCurrentDeserializeHandlerId(ref int currentDesializeHandler, int numberOfDeserializeHandlers)
+        {
+            currentDesializeHandler++;
+            if (currentDesializeHandler > numberOfDeserializeHandlers)
+            {
+                currentDesializeHandler = 1;
             }
 
-            return replyHandlers;
-        }*/
+            return currentDesializeHandler;
+        }
     }
 }

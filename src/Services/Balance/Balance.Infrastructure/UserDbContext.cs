@@ -1,13 +1,12 @@
-﻿using ECom.BuildingBlocks.SharedKernel.Extensions;
-
-namespace ECom.Services.Balance.Infrastructure
+﻿namespace ECom.Services.Balance.Infrastructure
 #nullable disable
 {
-    public class UserDbContext : DbContext, IUnitOfWork
+    public class UserDbContext : DbContext
     {
-        public const string DEFAULT_SCHEMA = "Balance";
+        public const string DEFAULT_SCHEMA = "BALANCE";
 
         public DbSet<User> Users { get; set; }
+        public DbSet<KafkaOffset> KafkaOffsets { get; set; }
 
         public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
         {
@@ -16,12 +15,7 @@ namespace ECom.Services.Balance.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
-        }
-
-        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
-        {
-            var result = await base.SaveChangesAsync(cancellationToken);
-            return true;
+            modelBuilder.ApplyConfiguration(new KafkaOffsetEntityTypeConfiguration());
         }
     }
 }

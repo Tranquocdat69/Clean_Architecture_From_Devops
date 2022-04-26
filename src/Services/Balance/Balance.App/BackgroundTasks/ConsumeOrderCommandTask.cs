@@ -3,40 +3,46 @@
 using ECom.BuildingBlocks.MessageQueue.KafkaMessageQueue;
 using ECom.Services.Balance.App.Application.Commands;
 using ECom.Services.Balance.App.Application.RingHandlers;
+using ECom.Services.Balance.Domain.AggregateModels.KafkaOffsetAggregate;
 
 namespace ECom.Services.Balance.App.BackgroundTasks
 {
     public class ConsumeOrderCommandTask : BackgroundService
     {
+        private readonly RingBuffer<UpdateCreditLimitEvent> _inputRing;
         private readonly KafkaConsumer<string, string> _consumer;
         private readonly IConfiguration _configuration;
-        private readonly IMediator _mediator;
-        private readonly string BalanceCommandTopic = "";
+        private readonly string _balanceCommandTopic;
+        private const int PartitionID = 0;
 
-        public ConsumeOrderCommandTask(RingBuffer<UpdateCreditLimitEvent> inputRing, KafkaConsumer<string, string> consumer, IConfiguration configuration, IMediator mediator)
+        public ConsumeOrderCommandTask(RingBuffer<UpdateCreditLimitEvent> inputRing, KafkaConsumer<string, string> consumer, IConfiguration configuration)
         {
+            _inputRing = inputRing;
             _consumer = consumer;
             _configuration = configuration;
-            BalanceCommandTopic = _configuration.GetSection("Kafka").GetSection("CommandTopic").Value;
-            _mediator = mediator;
+            _balanceCommandTopic = _configuration.GetSection("Kafka").GetSection("CommandTopic").Value;
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Run(() =>
+                await Task.Factory.StartNew(() =>
                 {
                     _consumer.Consume(record =>
                     {
                         if (record != null)
                         {
-                            UpdateCreditLimitCommand updateCreditLimitCommand = new UpdateCreditLimitCommand().FromString(record.Message.Value);
-                            updateCreditLimitCommand.IsCompensatedMessage = record.Message.Key.Contains("command") ? false : true;
-                            updateCreditLimitCommand.Offset = record.Offset.Value;
+                            long sequence = _inputRing.Next();
 
-                            _mediator.Send(updateCreditLimitCommand);
+                            UpdateCreditLimitEvent data = _inputRing[sequence];
+                            data.Offset = record.Offset.Value;
+                            data.IsCompensatedMessage = record.Message.Key.Contains("command") ? false : true;
+                            data.UpdateCreditLimitCommandString = record.Message.Value;
+                            //data.RequestId = record.Message.Key.Replace("command", "");
+
+                            _inputRing.Publish(sequence);
                         }
-                    }, stoppingToken, BalanceCommandTopic, 0);
+                    }, stoppingToken, _balanceCommandTopic, PartitionID, KafkaOffset.CommandOffset);
                 });
             }
         }

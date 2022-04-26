@@ -8,9 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="SharedKernel">
-      <HintPath>..\..\..\BuildingBlocks\SharedKernel.dll</HintPath>
-    </Reference>
+    <Content Remove="C:\Users\FITTHUCTAP20\.nuget\packages\fpts.sharedkernel\1.0.6\contentFiles\any\net6.0\fpts.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FPTS.SharedKernel" Version="1.0.8" />
   </ItemGroup>
 
 </Project>

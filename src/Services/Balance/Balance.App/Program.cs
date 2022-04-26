@@ -14,15 +14,13 @@ var app = builder.Build();
 
 app.MigrateDbContext<UserDbContext>((context, sp) =>
 {
-    var userDbContext = sp.GetRequiredService<UserDbContext>();
     var userRepository = sp.GetRequiredService<IUserRepository>();
     var env = sp.GetRequiredService<IHostEnvironment>();
 
-    int numberOfLogHanlers = Int32.Parse(builder.Configuration.GetSection("Disruptor").GetSection("NumberOfLogHandlers").Value);
-    int numberOfReplyHandlers = Int32.Parse(builder.Configuration.GetSection("Disruptor").GetSection("NumberOfReplyHandlers").Value);
+    new UserDbContextSeed().SeedAsync(context, userRepository, env).Wait();
+});
 
-    new UserDbContextSeed().SeedAsync(userDbContext, userRepository, env, numberOfLogHanlers, numberOfReplyHandlers).Wait();
-}, builder.Configuration);
+app.InitConsumeMessageFromTopicKafka();
 
 app.UseSwagger();
 app.UseSwaggerUI();
