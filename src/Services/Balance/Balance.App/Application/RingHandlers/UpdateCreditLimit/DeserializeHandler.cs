@@ -7,14 +7,14 @@ using System.Text.Json;
 
 namespace ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
 {
-    public class LogHandler : IRingHandler<UpdateCreditLimitEvent>
+    public class DeserializeHandler : IRingHandler<UpdateCreditLimitEvent>
     {
         private readonly IUserRepository _userRepository;
-        private readonly ILogger<LogHandler> _logger;
+        private readonly ILogger<DeserializeHandler> _logger;
         private readonly int _handlerId;
         private readonly IMediator _mediator;
 
-        public LogHandler(IUserRepository userRepository, ILogger<LogHandler> logger, int handlerId, IMediator mediator)
+        public DeserializeHandler(IUserRepository userRepository, ILogger<DeserializeHandler> logger, int handlerId, IMediator mediator)
         {
             _mediator = mediator;
             _userRepository = userRepository;
@@ -24,13 +24,14 @@ namespace ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
 
         public void OnEvent(UpdateCreditLimitEvent data, long sequence, bool endOfBatch)
         {
-            if (_userRepository.Exist(data.UserId) && _handlerId == _userRepository.GetT(data.UserId).LogHandlerId)
+            if (data.DeserializeHandlerId == _handlerId)
             {
                 UpdateCreditLimitCommand updateCreditLimitCommand = new();
                 updateCreditLimitCommand = JsonSerializer.Deserialize<UpdateCreditLimitCommand>(data.UpdateCreditLimitCommandString);
                 updateCreditLimitCommand.Offset = data.Offset;
                 updateCreditLimitCommand.IsCompensatedMessage = data.IsCompensatedMessage;
-                //updateCreditLimitCommand.RequestId = data.RequestId;
+                updateCreditLimitCommand.RequestId = data.RequestId;
+                updateCreditLimitCommand.SequenceRing = data.SequenceRing;
 
                 _mediator.Send(updateCreditLimitCommand);
 
