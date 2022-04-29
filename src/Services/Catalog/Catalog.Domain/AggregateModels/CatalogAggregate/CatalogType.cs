@@ -1,5 +1,5 @@
-﻿using ECom.BuildingBlocks.SharedKernel;
-using ECom.BuildingBlocks.SharedKernel.Interfaces;
+﻿using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel;
+using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel.Interfaces;
 
 namespace ECom.Services.Catalog.Domain.AggregateModels.CatalogAggregate
 #nullable disable

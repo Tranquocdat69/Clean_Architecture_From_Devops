@@ -8,5 +8,6 @@
         public int UserId { get; set; }
         public string CatalogRequestId { get; set; }
         public string BalanceRequestId { get; set; }
+        public Dictionary<string, string> JsonData { get; set; } = new();
     }   
 }

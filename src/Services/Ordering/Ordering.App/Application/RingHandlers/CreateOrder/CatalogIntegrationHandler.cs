@@ -1,27 +1,24 @@
 ﻿namespace ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder
 {
-    public class CatalogIntegrationHandler : IRingHandler<CreateOrderEvent>
+    public class CatalogIntegrationEventsHandler : IRingHandler<CreateOrderEvent>
     {
-        private readonly IPublisher<string, string> _publisher;
-        private readonly string _replyAddress;
+        private readonly IPublisher<ProducerData<string, string>> _publisher;
         private readonly string _topic;
-        private const string KEY_COMMAND = "command";
+        private const string c_keyCommand = "command";
 
-        public CatalogIntegrationHandler(IPublisher<string, string> IKafkaProducer, string replyAddress, string topic)
+        public CatalogIntegrationEventsHandler(IPublisher<ProducerData<string, string>> IKafkaProducer, string topic)
         {
             _publisher         = IKafkaProducer;
-            _replyAddress      = replyAddress;
             _topic             = topic;
         }
 
         public void OnEvent(CreateOrderEvent data, long sequence, bool endOfBatch)
         {
-            var integration = new UpdateProductAvaibleStockIntegrationEvent(
-                items: data.Items,
-                replyAddress: _replyAddress
-                );
-            string messageValue = JsonSerializer.Serialize(integration);
-            _publisher.Produce(new Message<string, string> { Value = messageValue, Key = KEY_COMMAND+data.BalanceRequestId}, _topic);
+            ProducerData<string, string> produceData = new ProducerData<string, string>(
+               value: data.JsonData["catalog"],
+               key: c_keyCommand + data.BalanceRequestId,
+               topic: _topic);
+            _publisher.Publish(produceData);
         }
     }
 }

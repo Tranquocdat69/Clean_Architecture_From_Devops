@@ -1,27 +1,23 @@
 namespace ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder
 {
-    public class BalanceIntegrationHandler : IRingHandler<CreateOrderEvent>
+    public class BalanceIntegrationEventsHandler : IRingHandler<CreateOrderEvent>
     {
-        private readonly IPublisher<string, string> _publisher;
-        private readonly string _replyAddress;
+        private readonly IPublisher<ProducerData<string, string>> _publisher;
         private readonly string _topic;
-        private const string KEY_COMMAND = "command";
+        private const string c_keyCommand = "command";
 
-        public BalanceIntegrationHandler(IPublisher<string, string> publisher, string replyAddress, string topic)
+        public BalanceIntegrationEventsHandler(IPublisher<ProducerData<string, string>> publisher, string topic)
         {
             _publisher     = publisher;
-            _replyAddress      = replyAddress;
             _topic             = topic;
         }
         public void OnEvent(CreateOrderEvent data, long sequence, bool endOfBatch)
         {
-            var integration = new UpdateCreditLimitIntegrationEvent(
-                totalCost: data.TotalCost,
-                userId: data.UserId,
-                replyAddress: _replyAddress
-                );
-            string messageValue = JsonSerializer.Serialize(integration);
-            _publisher.Produce(new Message<string, string> { Value = messageValue, Key = KEY_COMMAND+data.BalanceRequestId }, _topic);
+            ProducerData<string, string> produceData = new ProducerData<string, string>(
+               value: data.JsonData["balance"],
+               key: c_keyCommand + data.BalanceRequestId,
+               topic: _topic);
+            _publisher.Publish(produceData);
 
         }
     }

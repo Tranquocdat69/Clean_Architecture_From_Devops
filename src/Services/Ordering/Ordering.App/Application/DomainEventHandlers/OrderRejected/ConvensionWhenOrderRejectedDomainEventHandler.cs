@@ -2,10 +2,10 @@
 {
     public class ConvensionWhenOrderRejectedDomainEventHandler : IDomainEventHandler<OrderRejectedDomainEvent>
     {
-        private readonly IPublisher<string, string> _publisher;
-        private const string KEY_COMMAND = "convension";
+        private readonly IPublisher<ProducerData<string, string>> _publisher;
+        private const string c_keyCommand = "convension";
 
-        public ConvensionWhenOrderRejectedDomainEventHandler(IPublisher<string, string> IKafkaProducer)
+        public ConvensionWhenOrderRejectedDomainEventHandler(IPublisher<ProducerData<string, string>> IKafkaProducer)
         {
             _publisher = IKafkaProducer;
         }
@@ -13,18 +13,18 @@
         {
             if (!string.IsNullOrEmpty(notification.CompensionTopic))
             {
-                IIntegration integration;
+                IIntegrationEvent IntegrationEvents;
                 switch (notification.CompensionTopic)
                 {
-                    case "Balance":
-                        integration = new UpdateCreditLimitIntegrationEvent(
+                    case "balance":
+                        IntegrationEvents = new UpdateCreditLimitIntegrationEventsEvent(
                             userId: notification.CustomerId,
                             totalCost: notification.TotalCost,
                             replyAddress: ""
                         );
                         break;
-                    case "Catalog":
-                        integration = new UpdateProductAvaibleStockIntegrationEvent(
+                    case "catalog":
+                        IntegrationEvents = new UpdateProductAvaibleStockIntegrationEventsEvent(
                             items: notification.Items,
                             replyAddress: ""
                         );
@@ -32,8 +32,12 @@
                     default:
                         throw new OrderingDomainException("Undefined arrgument "+nameof(notification.CompensionTopic));
                 }
-                string messageValue = JsonSerializer.Serialize(integration);
-                _publisher.Produce(new Message<string, string> { Value = messageValue, Key = KEY_COMMAND }, notification.CompensionTopic);
+                string messageValue = JsonSerializer.Serialize(IntegrationEvents);
+                ProducerData<string, string> produceData = new ProducerData<string, string>(
+                value: messageValue,
+                key: c_keyCommand,
+                topic: notification.CompensionTopic);
+                _publisher.Publish(produceData);
 
             }
             return Task.CompletedTask;

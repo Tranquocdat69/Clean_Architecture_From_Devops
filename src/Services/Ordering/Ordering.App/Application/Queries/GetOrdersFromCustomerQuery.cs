@@ -1,6 +1,4 @@
 ﻿namespace ECom.Services.Ordering.App.Application.Queries
 {
-    public class GetOrdersFromCustomerQuery : IRequest<OrderDTO>
-    {
-    }
+    public record GetOrdersFromCustomerQuery(int CustomerId) : IRequest<List<OrderDTO>> { }
 }

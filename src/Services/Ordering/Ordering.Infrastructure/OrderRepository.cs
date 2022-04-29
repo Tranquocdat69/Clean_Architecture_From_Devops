@@ -5,33 +5,38 @@
     {
         private int _orderId { get; set; }
 
-        private static IDictionary<int, Order> s_dataStore;
+        private static List<Order> s_dataStore;
+
+        public IUnitOfWork UnitOfWork => throw new NotImplementedException();
+
         private readonly IMediator _mediator;
 
         public OrderRepository(IMediator mediator)
         {
-            s_dataStore = s_dataStore ?? new Dictionary<int, Order>();
+            s_dataStore = s_dataStore ?? new();
             _mediator   = mediator;
         }
-        public void Add(int id, Order t)
+
+        public Order GetOrder(string id)
         {
-            _mediator.DispatchDomainEventsAsync(t).Wait();
-            s_dataStore.Add(id, t);
+            return s_dataStore.FirstOrDefault(x => x.Id == id);
         }
 
-        public bool Exist(int id)
+        public void Add(Order order)
         {
-            return s_dataStore.TryGetValue(id, out Order t);
+            order.Id = DateTime.Now.ToString("yyyyMMddHHmmssffffff");
+            _mediator.DispatchDomainEventsAsync(order).Wait();
+            s_dataStore.Add(order);
         }
 
-        public Order GetT(int id)
+        public IEnumerable<OrderItem> GetItemsOfOrder(string id)
         {
-            return s_dataStore[id];
+            return GetOrder(id).OrderItems;
         }
 
-        public bool Add(Order t, int id)
+        public IEnumerable<Order> GetOrders()
         {
-            throw new NotImplementedException();
+            return s_dataStore.AsReadOnly();
         }
     }
 }

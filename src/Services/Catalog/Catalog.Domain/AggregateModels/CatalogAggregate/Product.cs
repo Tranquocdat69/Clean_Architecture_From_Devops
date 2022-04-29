@@ -1,4 +1,4 @@
-﻿using ECom.BuildingBlocks.SharedKernel;
+﻿using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel;
 
 namespace ECom.Services.Catalog.Domain.AggregateModels.CatalogAggregate
 #nullable disable

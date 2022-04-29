@@ -1,11 +1,9 @@
-﻿using ECom.Services.Ordering.App.BackgroundTasks;
-
-namespace ECom.Services.Ordering.App.Extensions
+﻿namespace ECom.Services.Ordering.App.Extensions
 #nullable disable
 {
     public static class ServiceCollectionExtensions
     {
-        private const string DB_CONNECTION_KEY = "OrderDB";
+        private const string c_dbConnectionKey = "OrderDB";
         public static IServiceCollection UseServiceCollectionConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             return services
@@ -29,7 +27,7 @@ namespace ECom.Services.Ordering.App.Extensions
                 }
                 options.AddKafkaLogger(config =>
                 {
-                    var loggerConfiguration = configuration.GetSection("KafkaLogger").Get<KafkaLoggerConfiguration>();
+                    var loggerConfiguration = configuration.GetSection("KafkaLogger").Get<LoggerKafkaConfiguration>();
                     config.BootstrapServers = loggerConfiguration.BootstrapServers;
                     config.Targets          = loggerConfiguration.Targets;
                     config.Rules            = loggerConfiguration.Rules;
@@ -40,12 +38,12 @@ namespace ECom.Services.Ordering.App.Extensions
         private static IServiceCollection AddPersistentConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             #region DbContext Configuration
-            var dbConnectionString = configuration.GetConnectionString(DB_CONNECTION_KEY);
+            var dbConnectionString = configuration.GetConnectionString(c_dbConnectionKey);
             services.AddDbContext<OrderDbContext>(options =>
             {
                 if(dbConnectionString == null)
                 {
-                    options.UseInMemoryDatabase(DB_CONNECTION_KEY);
+                    options.UseInMemoryDatabase(c_dbConnectionKey);
                 }
                 else
                 {
@@ -65,16 +63,16 @@ namespace ECom.Services.Ordering.App.Extensions
         }
         private static IServiceCollection AddKafkaConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            var config = new KafkaProducerConfig{
+            var config = new ProducerBuilderConfiguration{
                     BootstrapServers = configuration["Kafka:BootstrapServers"]
                 };
-            services.AddSingleton<IRequestManager,InMemoryRequestManager>();
-            services.AddSingleton<IPublisher<Null, string>, KafkaProducer<Null, string>>(sp => {
-                return new KafkaProducer<Null, string>(config);
+            services.AddSingleton<IRequestManager<string>,InMemoryRequestManager>();
+            services.AddSingleton<IPublisher<ProducerData<Null, string>>, KafkaPublisher<Null, string>>(sp => {
+                return new KafkaPublisher<Null, string>(config);
             });
 
-            services.AddSingleton<IPublisher<string, string>, KafkaProducer<string, string>>(sp => {
-                return new KafkaProducer<string, string>(config);
+            services.AddSingleton<IPublisher<ProducerData<string, string>>, KafkaPublisher<string, string>>(sp => {
+                return new KafkaPublisher<string, string>(config);
             });
             return services;
         }

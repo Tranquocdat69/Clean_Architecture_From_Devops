@@ -1,21 +1,24 @@
-﻿
-namespace ECom.Services.Ordering.App.Application.Commands
+﻿namespace ECom.Services.Ordering.App.Application.Commands
 #nullable disable
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, ResponseData>
     {
         private readonly RingBuffer<CreateOrderEvent> _ring;
-        private readonly IRequestManager _requestManagement;
+        private readonly IRequestManager<string> _requestManagement;
         private readonly IOrderRepository _repository;
+        private readonly IMediator _mediator;
+        private readonly string[] _keys = new[] { "catalog", "balance" };
 
         public CreateOrderCommandHandler(
+            IMediator mediator,
             RingBuffer<CreateOrderEvent> ring,
-            IRequestManager requestManager, 
+            IRequestManager<string> requestManager, 
             IOrderRepository repository) 
         {
             _ring              = ring;
             _requestManagement = requestManager;
             _repository        = repository;
+            _mediator          = mediator;
         }
         public async Task<ResponseData> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
@@ -28,31 +31,29 @@ namespace ECom.Services.Ordering.App.Application.Commands
             {
                 order.AddOrderItem(item.ProductId, item.ProductName, item.UnitPrice, item.Discount, item.PictureUrl, item.Units);
             }
-            // Tạo integration request Id để gửi message qua 2 service là balance và catalog
-            var catalogRequestId = _requestManagement.GenernateRequestId();
-            var balanceRequestId = _requestManagement.GenernateRequestId();
+            // Tạo IntegrationEvents request Id để gửi message qua 2 service là balance và catalog
+            var requestId        = _requestManagement.GenernateRequestId();
+            var catalogRequestId = requestId + " - " + _keys[0];
+            var balanceRequestId = requestId + " - " + _keys[1];
 
             // Sử lý với ring
-            var res = await RingHandlingAsync(order, balanceRequestId, catalogRequestId);
+            RingHandlingAsync(order, balanceRequestId, catalogRequestId);
 
-            // Nếu sử lý ở 2 service thành công thì set order confirmed 
-            // Nếu thất bại thì set order reject
-            if (res.IsSuccess)
+            // Chờ có phản hồi thử 2 service bằng request Id
+            var rs = await WaitingResponseReceived(new[]
             {
-                order.SetOrderConfirmed();
-            }
-            else
-            {
-                //var topic = balanceRequestId.Equals(res.RequestId) ? _commandTopic["Balance"] : _commandTopic["Catalog"];
-                order.SetOrderRejected(res.Convension);
-            }
-            // Thực hiện DomainEvent
-            _repository.Add(1,order);
+                _requestManagement.GetResponseAsync(balanceRequestId),
+                _requestManagement.GetResponseAsync(catalogRequestId)
+            });
+
+            var res = GetResponseData(rs.Cast<ResponseData>());
+
+            ResponseChecking(order, res);
 
             return res;
         }
 
-        private async Task<ResponseData> RingHandlingAsync(Order order, string balanceRequestId, string catalogRequestId)
+        private void RingHandlingAsync(Order order, string balanceRequestId, string catalogRequestId)
         {
             // Lấy squence
             var sequence = _ring.Next();
@@ -71,29 +72,49 @@ namespace ECom.Services.Ordering.App.Application.Commands
                 _ring.Publish(sequence);
             }
 
-            // Chờ có phản hồi thử 2 service bằng request Id
-            var tasks = await Task.WhenAll(
-                _requestManagement.GetResponseAsync(balanceRequestId),
-                _requestManagement.GetResponseAsync(catalogRequestId));
+        }
 
+        private ResponseData GetResponseData(IEnumerable<ResponseData> responses)
+        {
             var response = new ResponseData();
             // Kiểm tra có kết quả phản hồi
-            if (!tasks.Contains(null) && tasks.Any())
+            if (!responses.Contains(null) && responses.Any())
             {
-                // Cast object về ResponseData 
-                var resList = tasks.Cast<ResponseData>();
                 // Lấy ra ResponseData không thành công đầu tiên
                 // Nếu không có thì lấy ResponseData đầu tiên
-                response = resList.FirstOrDefault(x => !x.IsSuccess) ?? resList.FirstOrDefault();
+                response = responses.FirstOrDefault(x => !x.IsSuccess) ?? responses.FirstOrDefault();
                 // Kiểm tra nếu response là không thành công và các response có ít nhất 1 thành công
-                if(!response.IsSuccess && resList.Where(x => x.IsSuccess).Any())
+                if (!response.IsSuccess && responses.Where(x => x.IsSuccess).Any())
                 {
                     // Lấy topic 
-                    response.Convension = balanceRequestId.Equals(response.RequestId) ? "Catalog" : "Balance";
+                    response.Convension = response.RequestId.Contains(_keys[0]) ? _keys[1] : _keys[0];
                 }
 
             }
+
             return response;
+        }
+
+        private void ResponseChecking(Order order, ResponseData response)
+        {
+            // Nếu sử lý ở 2 service thành công thì set order confirmed 
+            // Nếu thất bại thì set order reject
+            if (response.IsSuccess)
+            {
+                order.SetOrderConfirmed();
+                _repository.Add(order);
+            }
+            else
+            {
+                //var topic = balanceRequestId.Equals(res.RequestId) ? _commandTopic["Balance"] : _commandTopic["Catalog"];
+                order.SetOrderRejected(response.Convension);
+                _mediator.DispatchDomainEventsAsync(order).Wait();
+            }
+        }
+
+        private async Task<object[]> WaitingResponseReceived(Task<object>[] tasks)
+        {
+            return await Task.WhenAll(tasks);
         }
     }
 

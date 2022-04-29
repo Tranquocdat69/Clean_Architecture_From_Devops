@@ -1,15 +1,11 @@
 ﻿global using ECom.Services.Ordering.Persistent.Services;
-global using ECom.BuildingBlocks.MessageQueue.KafkaMessageQueue;
-global using ECom.BuildingBlocks.MessageQueue.KafkaMessageQueue.Interfaces;
-global using ECom.BuildingBlocks.MessageQueue.KafkaMessageQueue.Configs;
-global using Confluent.Kafka;
-global using ECom.BuildingBlocks.SharedKernel;
+global using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Text;
 global using System.Threading.Tasks;
-global using ECom.BuildingBlocks.SharedKernel.Interfaces;
+global using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel.Interfaces;
 global using ECom.Services.Ordering.Persistent.RingBuffers.Events;
 global using ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate;
 global using System.Text.Json; 

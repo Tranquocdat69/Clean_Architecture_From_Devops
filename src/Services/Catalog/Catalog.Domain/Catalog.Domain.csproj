@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FPTS.SharedKernel" Version="1.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="SharedKernel">
       <HintPath>..\..\..\..\DLLs\SharedKernel.dll</HintPath>
     </Reference>

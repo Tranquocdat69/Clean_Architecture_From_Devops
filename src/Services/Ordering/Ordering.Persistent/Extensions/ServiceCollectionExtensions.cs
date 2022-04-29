@@ -2,7 +2,7 @@
 {
     public static class ServiceCollectionExtensions
     {
-        public const string DB_CONNECTION_KEY = "OrderDB";
+        public const string DbConnectionKey = "OrderDB";
         public static IServiceCollection UseServiceCollectionConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             return services
@@ -29,7 +29,7 @@
         private static IServiceCollection AddPersistentConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<KafkaOffsetDbContext>(options => 
-                options.UseSqlServer(configuration.GetConnectionString(DB_CONNECTION_KEY)));
+                options.UseSqlServer(configuration.GetConnectionString(DbConnectionKey)));
             return services;
         }
     }

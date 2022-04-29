@@ -4,9 +4,9 @@
     {
         private readonly int _socketPort;
         private readonly string _localhostIP;
-        private readonly IRequestManager _requestManager;
+        private readonly IRequestManager<string> _requestManager;
 
-        public ReceiveReplyTasks(IRequestManager requestManager, IConfiguration configuration)
+        public ReceiveReplyTasks(IRequestManager<string> requestManager, IConfiguration configuration)
         {
             _socketPort        = int.Parse(configuration["ExternalAddress"].Split(':')[1]);
             _localhostIP       = configuration["LocalhostIP"];

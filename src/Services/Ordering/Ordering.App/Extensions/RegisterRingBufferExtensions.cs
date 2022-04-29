@@ -9,19 +9,39 @@ namespace ECom.Services.Ordering.App.Extensions
             services.AddSingleton(sp =>
             {
                 var mediator = sp.GetRequiredService<IMediator>();
-                var disruptor = new Disruptor.Dsl.Disruptor<CreateOrderEvent>(() => new CreateOrderEvent(), 2048, TaskScheduler.Current, producerType: ProducerType.Multi, new BlockingWaitStrategy());
+                var ringConfig = configuration.GetSection("Disruptor").Get<RingConfiguration>();
+                var disruptor = new Disruptor<CreateOrderEvent>(
+                    () => new CreateOrderEvent(), ringConfig.RingSize, TaskScheduler.Current, producerType: ProducerType.Multi, new BlockingWaitStrategy());
                 var commandTopics = configuration.GetSection("Kafka")?.GetSection("CommandTopic");//["Balance"] ?? "balance-command-topic"
-                var producer = sp.GetRequiredService<IPublisher<string, string>>();
+                var producer = sp.GetRequiredService<IPublisher<ProducerData<string, string>>>();
                 var replyAddress = configuration["ExternalAddress"];
                 var balanceCommandTopic = commandTopics?["Balance"] ?? "balance-command-topic";
                 var catalogCommandTopic = commandTopics?["Catalog"] ?? "catalog-command-topic";
-                disruptor.HandleEventsWith(
-                    new BalanceIntegrationHandler(producer, replyAddress, balanceCommandTopic), 
-                    new CatalogIntegrationHandler(producer, replyAddress, catalogCommandTopic));
+                disruptor
+                .HandleEventsWith(GetSerializeHandlers(replyAddress, ringConfig.NumberOfSerializeHandlers))
+                .HandleEventsWith(
+                    new BalanceIntegrationEventsHandler(producer, balanceCommandTopic), 
+                    new CatalogIntegrationEventsHandler(producer, catalogCommandTopic));
                 return disruptor.Start();
             });
 
             return services;
         }
+
+        private static JsonSerializeHandler[] GetSerializeHandlers(string replyAddress, int numbers)
+        {
+            JsonSerializeHandler[] arr = new JsonSerializeHandler[numbers];
+            for(var i = 0; i < numbers; i++)
+            {
+                arr[i] = new JsonSerializeHandler(replyAddress, i+1, numbers);
+            }
+            return arr;
+        }
+    }
+
+    internal class RingConfiguration
+    {
+        public int RingSize { get; set; }
+        public int NumberOfSerializeHandlers { get; set; }
     }
 }

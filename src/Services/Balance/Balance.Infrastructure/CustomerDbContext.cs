@@ -1,4 +1,4 @@
-﻿using ECom.BuildingBlocks.SharedKernel.Extensions;
+﻿using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel.Extensions;
 namespace ECom.Services.Balance.Infrastructure
 #nullable disable
 {

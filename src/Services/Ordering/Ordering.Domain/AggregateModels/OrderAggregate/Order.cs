@@ -2,6 +2,7 @@
 #nullable disable
 public class Order : BaseEntity, IAggregateRoot
 {
+    public new string Id { get; set; }
     public DateTime OrderDate { get; set; }
     public Address Address { get; private set; }
     public int CustomerId { get; set; }
