@@ -4,13 +4,13 @@ using NetMQ.Sockets;
 
 namespace ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
 {
-    public class IntegrationReplyHandler : IRingHandler<UpdateCreditLimitReplyEvent>
+    public class ReplyHandler : IRingHandler<UpdateCreditLimitReplyEvent>
     {
         private IDictionary<string, PushSocket> _dicPushSocket;
         private readonly IUserRepository _userRepository;
         private PushSocket socket;
 
-        public IntegrationReplyHandler(IUserRepository userRepository)
+        public ReplyHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
             _dicPushSocket = _dicPushSocket ?? new Dictionary<string, PushSocket>();
