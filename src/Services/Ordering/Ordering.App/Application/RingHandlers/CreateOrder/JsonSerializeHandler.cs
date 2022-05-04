@@ -1,6 +1,6 @@
 ﻿namespace ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder
 {
-    public class JsonSerializeHandler : IRingHandler<CreateOrderEvent>
+    public class JsonSerializeHandler : IRingHandler<CreateOrderRingEvent>
     {
         private readonly string _replyAddress;
         private readonly int _numberOfHandler;
@@ -14,7 +14,7 @@
             _handlerId       = handlerId;
             s_handlerManager.Add(handlerId, new List<int>());
         }
-        public void OnEvent(CreateOrderEvent data, long sequence, bool endOfBatch)
+        public void OnEvent(CreateOrderRingEvent data, long sequence, bool endOfBatch)
         {
             if (IsMemberOfHandler(data.UserId))
             {
@@ -40,7 +40,7 @@
         private Task<string> GetCatalogIntegrationEventsEvent(Dictionary<int, int> items)
         {
 
-            var IntegrationEvents = new UpdateProductAvaibleStockIntegrationEventsEvent(
+            var IntegrationEvents = new UpdateProductAvaibleStockIntegrationEvent(
                 items: items,
                 replyAddress: _replyAddress
                 );
@@ -50,7 +50,7 @@
         private Task<string> GetBalanceIntegrationEventsEvent(decimal total, int userId)
         {
 
-            var IntegrationEvents = new UpdateCreditLimitIntegrationEventsEvent(
+            var IntegrationEvents = new UpdateCreditLimitIntegrationEvent(
                 totalCost: total,
                 userId: userId,
                 replyAddress: _replyAddress

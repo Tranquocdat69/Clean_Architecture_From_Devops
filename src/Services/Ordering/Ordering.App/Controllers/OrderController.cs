@@ -25,7 +25,11 @@ namespace ECom.Services.Ordering.App.Controllers
         public async Task<IActionResult> DeleteOrderAsync([FromBody] DeleteOrderCommand command)
         {
             var result = await _mediator.Send(command);
-            return Ok(result);
+            if (!result)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
     }
 }

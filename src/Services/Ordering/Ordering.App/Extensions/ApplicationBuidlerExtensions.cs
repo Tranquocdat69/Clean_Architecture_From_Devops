@@ -11,7 +11,7 @@
                 });
         }
 
-        private static IHost UseDbCobntextMigration<TContext>(this IHost host, Action<TContext, IServiceProvider> action) where TContext : DbContext
+        public static IHost UseDbCobntextMigration<TContext>(this IHost host, Action<TContext, IServiceProvider> action) where TContext : DbContext
         {
             using(var scope = host.Services.CreateScope())
             {

@@ -10,8 +10,8 @@ namespace ECom.Services.Ordering.App.Extensions
             {
                 var mediator = sp.GetRequiredService<IMediator>();
                 var ringConfig = configuration.GetSection("Disruptor").Get<RingConfiguration>();
-                var disruptor = new Disruptor<CreateOrderEvent>(
-                    () => new CreateOrderEvent(), ringConfig.RingSize, TaskScheduler.Current, producerType: ProducerType.Multi, new BlockingWaitStrategy());
+                var disruptor = new Disruptor<CreateOrderRingEvent>(
+                    () => new CreateOrderRingEvent(), ringConfig.RingSize, TaskScheduler.Current, producerType: ProducerType.Multi, new BlockingWaitStrategy());
                 var commandTopics = configuration.GetSection("Kafka")?.GetSection("CommandTopic");//["Balance"] ?? "balance-command-topic"
                 var producer = sp.GetRequiredService<IPublisher<ProducerData<string, string>>>();
                 var replyAddress = configuration["ExternalAddress"];

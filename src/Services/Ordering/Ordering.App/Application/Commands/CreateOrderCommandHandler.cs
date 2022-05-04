@@ -3,7 +3,7 @@
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, ResponseData>
     {
-        private readonly RingBuffer<CreateOrderEvent> _ring;
+        private readonly RingBuffer<CreateOrderRingEvent> _ring;
         private readonly IRequestManager<string> _requestManagement;
         private readonly IOrderRepository _repository;
         private readonly IMediator _mediator;
@@ -11,7 +11,7 @@
 
         public CreateOrderCommandHandler(
             IMediator mediator,
-            RingBuffer<CreateOrderEvent> ring,
+            RingBuffer<CreateOrderRingEvent> ring,
             IRequestManager<string> requestManager, 
             IOrderRepository repository) 
         {

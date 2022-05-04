@@ -1,7 +1,7 @@
 ﻿namespace ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate.RingEvents
 #nullable disable
 {
-    public class CreateOrderEvent : BaseRingEvent
+    public class CreateOrderRingEvent : BaseRingEvent
     {
         public decimal TotalCost { get; set; }
         public Dictionary<int, int> Items { get; set; }

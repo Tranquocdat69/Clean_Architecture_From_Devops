@@ -1,9 +1,9 @@
 ﻿namespace ECom.Services.Ordering.App.Application.IntegrationEvents
 #nullable disable
 {
-    public class UpdateCreditLimitIntegrationEventsEvent : IIntegrationEvent
+    public class UpdateCreditLimitIntegrationEvent : IIntegrationEvent
     {
-        public UpdateCreditLimitIntegrationEventsEvent(decimal totalCost, int userId, string replyAddress)
+        public UpdateCreditLimitIntegrationEvent(decimal totalCost, int userId, string replyAddress)
         {
             TotalCost = totalCost;
             UserId = userId;

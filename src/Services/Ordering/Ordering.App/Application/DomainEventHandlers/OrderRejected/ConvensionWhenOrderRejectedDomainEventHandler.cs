@@ -17,14 +17,14 @@
                 switch (notification.CompensionTopic)
                 {
                     case "balance":
-                        IntegrationEvents = new UpdateCreditLimitIntegrationEventsEvent(
+                        IntegrationEvents = new UpdateCreditLimitIntegrationEvent(
                             userId: notification.CustomerId,
                             totalCost: notification.TotalCost,
                             replyAddress: ""
                         );
                         break;
                     case "catalog":
-                        IntegrationEvents = new UpdateProductAvaibleStockIntegrationEventsEvent(
+                        IntegrationEvents = new UpdateProductAvaibleStockIntegrationEvent(
                             items: notification.Items,
                             replyAddress: ""
                         );

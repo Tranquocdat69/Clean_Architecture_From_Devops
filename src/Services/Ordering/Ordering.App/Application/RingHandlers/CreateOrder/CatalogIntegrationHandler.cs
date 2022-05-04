@@ -1,6 +1,6 @@
 ﻿namespace ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder
 {
-    public class CatalogIntegrationEventsHandler : IRingHandler<CreateOrderEvent>
+    public class CatalogIntegrationEventsHandler : IRingHandler<CreateOrderRingEvent>
     {
         private readonly IPublisher<ProducerData<string, string>> _publisher;
         private readonly string _topic;
@@ -12,7 +12,7 @@
             _topic             = topic;
         }
 
-        public void OnEvent(CreateOrderEvent data, long sequence, bool endOfBatch)
+        public void OnEvent(CreateOrderRingEvent data, long sequence, bool endOfBatch)
         {
             ProducerData<string, string> produceData = new ProducerData<string, string>(
                value: data.JsonData["catalog"],
