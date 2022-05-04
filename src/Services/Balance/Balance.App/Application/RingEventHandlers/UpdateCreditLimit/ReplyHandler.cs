@@ -2,9 +2,9 @@
 using NetMQ;
 using NetMQ.Sockets;
 
-namespace ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
+namespace ECom.Services.Balance.App.Application.RingEventHandlers.UpdateCreditLimit
 {
-    public class ReplyHandler : IRingHandler<UpdateCreditLimitReplyEvent>
+    public class ReplyHandler : IRingHandler<UpdateCreditLimitReplyRingEvent>
     {
         private IDictionary<string, PushSocket> _dicPushSocket;
         private readonly IUserRepository _userRepository;
@@ -16,7 +16,7 @@ namespace ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
             _dicPushSocket = _dicPushSocket ?? new Dictionary<string, PushSocket>();
         }
 
-        public void OnEvent(UpdateCreditLimitReplyEvent data, long sequence, bool endOfBatch)
+        public void OnEvent(UpdateCreditLimitReplyRingEvent data, long sequence, bool endOfBatch)
         {
             if (_dicPushSocket.ContainsKey(data.ReplyAddress))
             {

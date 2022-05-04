@@ -1,17 +1,17 @@
 ﻿using ECom.Services.Balance.Domain.AggregateModels.UserAggregate;
-using ECom.Services.Balance.Domain.AggregateModels.UserAggregate.Events;
+using ECom.Services.Balance.Domain.AggregateModels.UserAggregate.DomainEvents.UpdateCreditLimit;
 
 namespace ECom.Services.Balance.App.Application.DomainEventHandlers
 {
-    public class DecreaseCreditLimitEventHandler : IDomainEventHandler<DecreaseCreditLimitDomainEvent>
+    public class DecreaseCreditLimitDomainEventHandler : IDomainEventHandler<DecreaseCreditLimitDomainEvent>
     {
-        private readonly RingBuffer<UpdateCreditLimitPersistentEvent> _ringPersistentBuffer;
-        private readonly IUserRepository _userRepository;
+        private readonly RingBuffer<UpdateCreditLimitPersistentRingEvent> _ringPersistentBuffer;
 
-        public DecreaseCreditLimitEventHandler(RingBuffer<UpdateCreditLimitPersistentEvent> ringPersistentBuffer, IUserRepository userRepository)
+        public DecreaseCreditLimitDomainEventHandler(
+            RingBuffer<UpdateCreditLimitPersistentRingEvent> ringPersistentBuffer,
+            IConfiguration configuration)
         {
             _ringPersistentBuffer = ringPersistentBuffer;
-            _userRepository = userRepository;
         }
 
         public Task Handle(DecreaseCreditLimitDomainEvent @event, CancellationToken cancellationToken)
@@ -22,10 +22,9 @@ namespace ECom.Services.Balance.App.Application.DomainEventHandlers
             persistentEvent.UserId = @event.UserId;
             persistentEvent.CreditLimit = @event.CreditLimit;
             persistentEvent.Offset = @event.Offset;
-            persistentEvent.SerializeHandlerId = 1;//data.DeserializeHandlerId;
+            persistentEvent.SerializeHandlerId = @event.SerializeHandlerId;
+          
             _ringPersistentBuffer.Publish(sq);
-
-            Console.WriteLine("Current Credit Limit of " + _userRepository.GetT(@event.UserId).Name + " is: " + @event.CreditLimit);
 
             return Task.CompletedTask;
         }

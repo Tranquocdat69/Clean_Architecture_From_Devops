@@ -5,9 +5,9 @@ using ECom.Services.Balance.Domain.AggregateModels.UserAggregate;
 using System.Text.Json;
 >>>>>>> a43d0a8 (kafka offset + desialize msg kafka)
 
-namespace ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
+namespace ECom.Services.Balance.App.Application.RingEventHandlers.UpdateCreditLimit
 {
-    public class DeserializeHandler : IRingHandler<UpdateCreditLimitEvent>
+    public class DeserializeHandler : IRingHandler<UpdateCreditLimitRingEvent>
     {
         private readonly IUserRepository _userRepository;
         private readonly ILogger<DeserializeHandler> _logger;
@@ -22,7 +22,7 @@ namespace ECom.Services.Balance.App.Application.RingHandlers.UpdateCreditLimit
             _handlerId = handlerId;
         }
 
-        public void OnEvent(UpdateCreditLimitEvent data, long sequence, bool endOfBatch)
+        public void OnEvent(UpdateCreditLimitRingEvent data, long sequence, bool endOfBatch)
         {
             if (data.DeserializeHandlerId == _handlerId)
             {
