@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate.Events
+﻿namespace ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate.DomainEvents
 {
     public class OrderConfirmedDomainEvent : BaseDomainEvent
     {

@@ -14,7 +14,7 @@
         public Task Handle(OrderConfirmedDomainEvent notification, CancellationToken cancellationToken)
         {
             var message     = JsonSerializer.Serialize(notification.Order);
-            var produceData = new ProducerData<Null, string>(message, null, _persistentTopic, 0);
+             var produceData = new ProducerData<Null, string>(message, null, _persistentTopic, 0);
 
             _publisher.Publish(produceData);
             return Task.CompletedTask;
