@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Ordering.UnitTests;
+namespace Ordering.Tests.Unit;
 
 public class UnitTest1
 {

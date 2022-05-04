@@ -58,7 +58,8 @@
             services
                 .AddMediatR(typeof(CreateOrderCommand))
                 .AddFluentValidation(config => config.RegisterValidatorsFromAssembly(typeof(CreateOrderCommandValidator).Assembly))
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>))
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggerBehavior<,>));
             return services;
         }
         private static IServiceCollection AddKafkaConfiguration(this IServiceCollection services, IConfiguration configuration)

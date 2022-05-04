@@ -1,4 +1,5 @@
-﻿namespace ECom.Services.Ordering.Infrastructure
+﻿using System.Linq;
+namespace ECom.Services.Ordering.Infrastructure
 #nullable disable
 {
     public class OrderRepository : IOrderRepository
@@ -6,8 +7,6 @@
         private int _orderId { get; set; }
 
         private static List<Order> s_dataStore;
-
-        public IUnitOfWork UnitOfWork => throw new NotImplementedException();
 
         private readonly IMediator _mediator;
 
@@ -37,6 +36,17 @@
         public IEnumerable<Order> GetOrders()
         {
             return s_dataStore.AsReadOnly();
+        }
+
+        public bool Remove(string orderId)
+        {
+            var order = GetOrder(orderId);
+            if (s_dataStore.Contains(order))
+            {
+                s_dataStore.Remove(order);
+                return true;
+            }
+            return false;
         }
     }
 }

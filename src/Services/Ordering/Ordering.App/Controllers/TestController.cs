@@ -8,10 +8,41 @@ namespace ECom.Services.Ordering.App.Controllers
     public class TestController : ControllerBase
     {
         private readonly IOrderRepository _repository;
+        private readonly IMediator _mediator;
 
-        public TestController(IOrderRepository repository)
+        public TestController(IOrderRepository repository, IMediator mediator)
         {
             _repository = repository;
+            _mediator   = mediator;
+        }
+
+        [HttpPost("demo")]
+        public async Task<IActionResult> Demo()
+        {
+            List<OrderItemDTO> list = new();
+            for (var i = 1; i < 4; i++)
+            {
+                list.Add(new OrderItemDTO()
+                {
+                    Discount = i,
+                    PictureUrl = "demo",
+                    ProductId = i,
+                    ProductName = "ProductName>i",
+                    UnitPrice = i,
+                    Units = i * 10
+                });
+            }
+            CreateOrderCommand command = new(list, 1, "demo", "demo");
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpGet("get_order_of_customer")]
+        public async Task<IActionResult> GetOrdersOfCustomer(int customerId)
+        {
+            var query = new GetOrdersFromCustomerQuery(customerId);
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
         [HttpGet]
