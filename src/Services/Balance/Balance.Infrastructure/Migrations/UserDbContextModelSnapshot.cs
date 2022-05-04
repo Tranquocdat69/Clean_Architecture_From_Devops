@@ -3,18 +3,16 @@ using ECom.Services.Balance.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ECom.Services.Balance.Infrastructure.UserMigrations
+namespace ECom.Services.Balance.Infrastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220428093239_Second")]
-    partial class Second
+    partial class UserDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +39,7 @@ namespace ECom.Services.Balance.Infrastructure.UserMigrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("userbalance", (string)null);
+                    b.ToTable("userbalance", "Balance");
                 });
 
             modelBuilder.Entity("ECom.Services.Balance.Infrastructure.KafkaOffset", b =>
@@ -62,7 +60,7 @@ namespace ECom.Services.Balance.Infrastructure.UserMigrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("kafkaoffset", (string)null);
+                    b.ToTable("kafkaoffset", "Balance");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ECom.Services.Balance.Infrastructure.UserMigrations
+namespace ECom.Services.Balance.Infrastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220425074850_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220504104025_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,16 +32,37 @@ namespace ECom.Services.Balance.Infrastructure.UserMigrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("CreditLimit")
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal(18,0)")
                         .HasColumnName("Credit_Limit");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("User_Name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("userbalance", (string)null);
+                    b.ToTable("userbalance", "Balance");
+                });
+
+            modelBuilder.Entity("ECom.Services.Balance.Infrastructure.KafkaOffset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<long>("CommandOffset")
+                        .HasColumnType("bigint")
+                        .HasColumnName("Command_Offset");
+
+                    b.Property<long>("PersistentOffset")
+                        .HasColumnType("bigint")
+                        .HasColumnName("Persistent_Offset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("kafkaoffset", "Balance");
                 });
 #pragma warning restore 612, 618
         }
