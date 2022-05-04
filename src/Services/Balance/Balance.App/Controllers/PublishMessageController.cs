@@ -14,10 +14,23 @@ public class PublishMessageController : ControllerBase
     }
 
     [HttpPost]
-    [Route("Publish-Single-Message/{userId}/{totalCost}")]
-    public IActionResult PostSingleMsg(int userId, decimal totalCost)
+    [Route("Publish-Command-Single-Message/{userId}/{totalCost}")]
+    public IActionResult PostCommandSingleMsg(int userId, decimal totalCost)
     {
         var keyMsg = "command" + Guid.NewGuid().ToString();
+        var valueMsg = "{\"TotalCost\": " + totalCost + ",\"UserId\": " + userId + ",\"ReplyAddress\": \"localhost:8888\"}";
+
+        var producerData = new ProducerData<string, string>(valueMsg, keyMsg, Topic, 0);
+        _producer.Publish(producerData);
+
+        return Ok();
+    }
+    
+    [HttpPost]
+    [Route("Publish-Compensate-Single-Message/{userId}/{totalCost}")]
+    public IActionResult PostCompensateSingleMsg(int userId, decimal totalCost)
+    {
+        var keyMsg = "compensate" + Guid.NewGuid().ToString();
         var valueMsg = "{\"TotalCost\": " + totalCost + ",\"UserId\": " + userId + ",\"ReplyAddress\": \"localhost:8888\"}";
 
         var producerData = new ProducerData<string, string>(valueMsg, keyMsg, Topic, 0);
@@ -41,4 +54,17 @@ public class PublishMessageController : ControllerBase
 
         return Ok();
     }
+    
+    /*[HttpPost]
+    [Route("Publish-Single-Message-Catalog")]
+    public IActionResult PostSingleMsgCatalog()
+    {
+            var keyMsg = "command" + Guid.NewGuid().ToString();
+            var valueMsg = "{\"Id\": " + 1 + ",\"Quantity\": " + 10 + ",\"ReplyAddress\": \"localhost:8888\"}";
+
+            var producerData = new ProducerData<string, string>(valueMsg, keyMsg, "catalog-command-topic", 0);
+            _producer.Publish(producerData);
+
+        return Ok();
+    }*/
 }
