@@ -56,6 +56,11 @@ public class Order : BaseEntity, IAggregateRoot
         AddDomainEvent(@event);
     }
 
+    public decimal GetTotal()
+    {
+        return _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
+    }
+
     public void SetOrderRejected(string topic)
     {
         var total                        = OrderItems.Sum(x => x.GetUnits() + x.GetUnitPrice());
