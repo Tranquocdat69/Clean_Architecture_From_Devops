@@ -1,16 +1,35 @@
 using Confluent.Kafka;
+using ECom.Services.Balance.App.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Balance.App.Controllers;
 
 [ApiController]
-public class PublishMessageController : ControllerBase
+public class BalanceController : ControllerBase
 {
+    private readonly IMediator _mediator;
     private readonly IPublisher<ProducerData<string, string>> _producer;
     private const string Topic = "balance-command-topic";
-    public PublishMessageController(IPublisher<ProducerData<string, string>> producer)
+    public BalanceController(IPublisher<ProducerData<string, string>> producer, IMediator mediator)
     {
+        _mediator = mediator;
         _producer = producer;
+    }
+
+    [HttpGet]
+    [Route("/GetUserBalanceByUserId/{userId}")]
+    public async Task<IActionResult> GetUserBalanceByUserId(int userId)
+    {
+        var query = new GetUserBalanceByUserIdQuery()
+        {
+            UserId = userId
+        };
+        var userDTO = await _mediator.Send(query);
+        if (userDTO is not null)
+        {
+            return Ok(userDTO);
+        }
+        return BadRequest("User does not exist");
     }
 
     [HttpPost]
@@ -25,7 +44,7 @@ public class PublishMessageController : ControllerBase
 
         return Ok();
     }
-    
+
     [HttpPost]
     [Route("Publish-Compensate-Single-Message/{userId}/{totalCost}")]
     public IActionResult PostCompensateSingleMsg(int userId, decimal totalCost)
@@ -54,7 +73,7 @@ public class PublishMessageController : ControllerBase
 
         return Ok();
     }
-    
+
     /*[HttpPost]
     [Route("Publish-Single-Message-Catalog")]
     public IActionResult PostSingleMsgCatalog()
