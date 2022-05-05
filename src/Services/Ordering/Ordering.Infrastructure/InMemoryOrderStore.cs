@@ -14,14 +14,9 @@
             _mediator = mediator;
         }
 
-        public Order GetOrder(string id)
-        {
-            return s_dataStore[id];
-        }
-
         public IEnumerable<OrderItem> GetItemsOfOrder(string id)
         {
-            return GetOrder(id).OrderItems;
+            return Get(id).OrderItems;
         }
 
         public IEnumerable<Order> GetOrders()
@@ -56,9 +51,9 @@
             return s_dataStore.ContainsKey(id);
         }
 
-        public Order GetT(string id)
+        public Order Get(string id)
         {
-            throw new NotImplementedException();
+            return s_dataStore[id];
         }
 
         public async Task DispatchDomainEvent(Order order)

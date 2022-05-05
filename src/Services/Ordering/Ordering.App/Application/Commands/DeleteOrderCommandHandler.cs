@@ -10,7 +10,7 @@
         }
         public async Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = _orderStore.GetOrder(request.OrderId);
+            var order = _orderStore.Get(request.OrderId);
             order.SetOrderRemoved();
             await _orderStore.DispatchDomainEvent(order);
             var result = _orderStore.Remove(request.OrderId);
