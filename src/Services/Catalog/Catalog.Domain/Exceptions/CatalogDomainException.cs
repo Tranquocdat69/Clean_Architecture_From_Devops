@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Catalog.Domain.Exceptions
+﻿namespace FPTS.FIT.BDRD.Services.Catalog.Domain.Exceptions
 {
     public class CatalogDomainException : Exception
     {

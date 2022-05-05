@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.Infrastructure.EntityConfigurations;
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.Infrastructure.EntityConfigurations;
 
 class OrderItemEntityTypeConfiguration
     : IEntityTypeConfiguration<OrderItem>
@@ -13,7 +13,7 @@ class OrderItemEntityTypeConfiguration
 
         orderItemConfiguration.Property(o => o.Id);
 
-        orderItemConfiguration.Property<int>("OrderId")
+        orderItemConfiguration.Property<string>("OrderId")
             .IsRequired();
 
         orderItemConfiguration

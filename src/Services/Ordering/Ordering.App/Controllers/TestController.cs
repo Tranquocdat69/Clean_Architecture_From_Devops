@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ECom.Services.Ordering.App.Controllers
+namespace FPTS.FIT.BDRD.Services.Ordering.App.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -9,11 +9,13 @@ namespace ECom.Services.Ordering.App.Controllers
     {
         private readonly IOrderRepository _repository;
         private readonly IMediator _mediator;
+        private readonly OrderDbContext _context;
 
-        public TestController(IOrderRepository repository, IMediator mediator)
+        public TestController(IOrderRepository repository, IMediator mediator, OrderDbContext context)
         {
             _repository = repository;
             _mediator   = mediator;
+            _context = context;
         }
 
         [HttpPost("demo")]
@@ -64,6 +66,12 @@ namespace ECom.Services.Ordering.App.Controllers
                 _repository.Add(order);
             }
             return Ok();
+        }
+
+        [HttpGet("DbContext")]
+        public IActionResult TestDbContext()
+        {
+            return Ok(_context.Orders);
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using ECom.Services.Catalog.Domain.AggregateModels.CatalogAggregate;
+﻿using FPTS.FIT.BDRD.Services.Catalog.Domain.AggregateModels.CatalogAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ECom.Services.Catalog.Infrastructure.EntityConfigurations
+namespace FPTS.FIT.BDRD.Services.Catalog.Infrastructure.EntityConfigurations
 {
     public class CatalogEntityTypeConfiguration : IEntityTypeConfiguration<CatalogType>
     {

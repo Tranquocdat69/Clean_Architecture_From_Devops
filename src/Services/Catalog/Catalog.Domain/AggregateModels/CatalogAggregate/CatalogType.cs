@@ -1,7 +1,7 @@
 ﻿using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel;
 using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel.Interfaces;
 
-namespace ECom.Services.Catalog.Domain.AggregateModels.CatalogAggregate
+namespace FPTS.FIT.BDRD.Services.Catalog.Domain.AggregateModels.CatalogAggregate
 #nullable disable
 {
     public class CatalogType : BaseEntity, IAggregateRoot

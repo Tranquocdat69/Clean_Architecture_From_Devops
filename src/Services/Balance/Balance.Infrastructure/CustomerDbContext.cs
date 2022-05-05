@@ -1,5 +1,5 @@
 ﻿using FPTS.FIT.BDRD.BuildingBlocks.SharedKernel.Extensions;
-namespace ECom.Services.Balance.Infrastructure
+namespace FPTS.FIT.BDRD.Services.Balance.Infrastructure
 #nullable disable
 {
     public class BalanceDbContext : DbContext, IUnitOfWork

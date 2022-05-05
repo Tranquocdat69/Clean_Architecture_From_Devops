@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.RingHandlers.CreateOrder
 {
     public class JsonSerializeHandler : IRingHandler<CreateOrderRingEvent>
     {

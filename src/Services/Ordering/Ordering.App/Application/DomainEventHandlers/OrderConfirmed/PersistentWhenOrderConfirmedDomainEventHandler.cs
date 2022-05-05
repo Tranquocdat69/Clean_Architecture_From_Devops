@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.Application.DomainEventHandlers.OrderConfirmed
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.DomainEventHandlers.OrderConfirmed
 #nullable disable
 {
     public class PersistentWhenOrderConfirmedDomainEventHandler : IDomainEventHandler<OrderConfirmedDomainEvent>

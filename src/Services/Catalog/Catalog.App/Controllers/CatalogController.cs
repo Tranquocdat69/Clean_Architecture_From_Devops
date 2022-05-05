@@ -1,10 +1,10 @@
-﻿using ECom.Services.Catalog.App.Application.DTOs;
-using ECom.Services.Catalog.App.Application.Queries;
+﻿using FPTS.FIT.BDRD.Services.Catalog.App.Application.DTOs;
+using FPTS.FIT.BDRD.Services.Catalog.App.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ECom.Services.Catalog.App.Controllers
+namespace FPTS.FIT.BDRD.Services.Catalog.App.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.Application.IntegrationEvents
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.IntegrationEvents
 #nullable disable
 {
     public class UpdateProductAvaibleStockIntegrationEvent : IIntegrationEvent

@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.Application.Behaviors
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.Behaviors
 {
     public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>

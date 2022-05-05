@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Balance.Domain.Exceptions;
+﻿namespace FPTS.FIT.BDRD.Services.Balance.Domain.Exceptions;
 /// <summary>
 /// Exception type for domain exceptions
 /// </summary>

@@ -1,6 +1,6 @@
-﻿using ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder;
+﻿using FPTS.FIT.BDRD.Services.Ordering.App.Application.RingHandlers.CreateOrder;
 
-namespace ECom.Services.Ordering.App.Extensions
+namespace FPTS.FIT.BDRD.Services.Ordering.App.Extensions
 {
     public static class RegisterRingBufferExtensions
     {
@@ -20,8 +20,8 @@ namespace ECom.Services.Ordering.App.Extensions
                 disruptor
                 .HandleEventsWith(GetSerializeHandlers(replyAddress, ringConfig.NumberOfSerializeHandlers))
                 .HandleEventsWith(
-                    new BalanceIntegrationHandler(producer, balanceCommandTopic), 
-                    new CatalogIntegrationHandler(producer, catalogCommandTopic));
+                    new CheckCreditLimitHandler(producer, balanceCommandTopic), 
+                    new CheckProductAvaibleStockHandler(producer, catalogCommandTopic));
                 return disruptor.Start();
             });
 

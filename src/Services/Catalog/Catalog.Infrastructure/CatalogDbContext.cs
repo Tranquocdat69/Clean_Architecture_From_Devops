@@ -1,8 +1,8 @@
-﻿using ECom.Services.Catalog.Domain.AggregateModels.CatalogAggregate;
-using ECom.Services.Catalog.Infrastructure.EntityConfigurations;
+﻿using FPTS.FIT.BDRD.Services.Catalog.Domain.AggregateModels.CatalogAggregate;
+using FPTS.FIT.BDRD.Services.Catalog.Infrastructure.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECom.Services.Catalog.Infrastructure
+namespace FPTS.FIT.BDRD.Services.Catalog.Infrastructure
 #nullable disable
 {
     public class CatalogDbContext : DbContext

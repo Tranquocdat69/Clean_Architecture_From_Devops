@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.Domain.Exceptions;
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.Domain.Exceptions;
 
 /// <summary>
 /// Exception type for domain exceptions

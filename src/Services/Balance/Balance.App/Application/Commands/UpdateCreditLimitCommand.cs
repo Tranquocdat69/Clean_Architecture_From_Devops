@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Balance.App.Application.Commands
+﻿namespace FPTS.FIT.BDRD.Services.Balance.App.Application.Commands
 #nullable disable
 {
     public class UpdateCreditLimitCommand : IRequest

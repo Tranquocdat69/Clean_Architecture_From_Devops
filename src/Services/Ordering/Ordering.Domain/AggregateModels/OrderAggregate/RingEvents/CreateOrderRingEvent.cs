@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate.RingEvents
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.Domain.AggregateModels.OrderAggregate.RingEvents
 #nullable disable
 {
     public class CreateOrderRingEvent : BaseRingEvent

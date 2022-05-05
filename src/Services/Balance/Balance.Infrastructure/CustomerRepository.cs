@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Balance.Infrastructure
+﻿namespace FPTS.FIT.BDRD.Services.Balance.Infrastructure
 {
     public class UserRepository : IUserRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.BackgroundTasks
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.BackgroundTasks
 {
     public class ReceiveReplyTasks : BackgroundService
     {

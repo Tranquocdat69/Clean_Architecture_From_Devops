@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>ECom.Services.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <RootNamespace>FPTS.FIT.BDRD.Services.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>94c63e55-c503-4a5d-9183-f75f95696378</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>

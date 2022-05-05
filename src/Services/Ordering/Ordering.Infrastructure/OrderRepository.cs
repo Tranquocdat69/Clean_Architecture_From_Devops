@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-namespace ECom.Services.Ordering.Infrastructure
+namespace FPTS.FIT.BDRD.Services.Ordering.Infrastructure
 #nullable disable
 {
     public class OrderRepository : IOrderRepository

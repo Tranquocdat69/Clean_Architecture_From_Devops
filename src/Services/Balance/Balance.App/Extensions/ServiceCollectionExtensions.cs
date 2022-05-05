@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Balance.App.Extensions
+﻿namespace FPTS.FIT.BDRD.Services.Balance.App.Extensions
 {
     public class ServiceCollectionExtensions
     {

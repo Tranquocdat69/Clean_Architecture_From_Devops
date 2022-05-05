@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.Infrastructure.EntityConfigurations;
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.Infrastructure.EntityConfigurations;
 
 class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
 {

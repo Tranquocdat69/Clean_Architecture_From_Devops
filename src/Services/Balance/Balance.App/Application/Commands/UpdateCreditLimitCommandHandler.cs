@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Balance.App.Application.Commands
+﻿namespace FPTS.FIT.BDRD.Services.Balance.App.Application.Commands
 {
     public class UpdateCreditLimitCommandHandler : IRequestHandler<UpdateCreditLimitCommand>
     {

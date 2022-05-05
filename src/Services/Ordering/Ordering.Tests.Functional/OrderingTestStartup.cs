@@ -1,4 +1,4 @@
-﻿using ECom.Services.Ordering.App.Controllers;
+﻿using FPTS.FIT.BDRD.Services.Ordering.App.Controllers;
 using Microsoft.AspNetCore.Builder;
 
 namespace Ordering.Tests.Functional

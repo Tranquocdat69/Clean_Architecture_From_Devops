@@ -1,5 +1,5 @@
 ﻿
-namespace ECom.Services.Ordering.App.Application.Commands
+namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.Commands
 #nullable disable
 {
     public class CreateOrderCommand : IRequest<ResponseData>

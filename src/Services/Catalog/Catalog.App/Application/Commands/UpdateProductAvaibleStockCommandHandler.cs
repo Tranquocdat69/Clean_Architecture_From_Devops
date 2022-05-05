@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ECom.Services.Catalog.App.Application.Commands
+namespace FPTS.FIT.BDRD.Services.Catalog.App.Application.Commands
 {
     public class UpdateProductAvaibleStockCommandHandler : IRequestHandler<UpdateProductAvaibleStockCommand>
     {

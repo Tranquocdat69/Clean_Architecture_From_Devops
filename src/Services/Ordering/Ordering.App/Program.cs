@@ -1,4 +1,4 @@
-using ECom.Services.Ordering.App.Extensions;
+using FPTS.FIT.BDRD.Services.Ordering.App.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

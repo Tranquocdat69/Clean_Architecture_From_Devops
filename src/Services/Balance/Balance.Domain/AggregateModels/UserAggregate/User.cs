@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Balance.Domain.AggregateModels.UserAggregate
+﻿namespace FPTS.FIT.BDRD.Services.Balance.Domain.AggregateModels.UserAggregate
 #nullable disable
 {
     public class User : BaseEntity, IAggregateRoot

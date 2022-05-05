@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Balance.Domain.AggregateModels.UserAggregate.Rings.UpdateCreditLimit
+﻿namespace FPTS.FIT.BDRD.Services.Balance.Domain.AggregateModels.UserAggregate.Rings.UpdateCreditLimit
 {
     public class UpdateCreditLimitPersistentEvent : BaseRingEvent
     {

@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Balance.Infrastructure.EntityConfigurations;
+﻿namespace FPTS.FIT.BDRD.Services.Balance.Infrastructure.EntityConfigurations;
 
 class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 {

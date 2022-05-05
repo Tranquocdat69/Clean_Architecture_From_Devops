@@ -1,6 +1,6 @@
-﻿using ECom.Services.Catalog.Domain.AggregateModels.CatalogAggregate;
+﻿using FPTS.FIT.BDRD.Services.Catalog.Domain.AggregateModels.CatalogAggregate;
 
-namespace ECom.Services.Catalog.Infrastructure
+namespace FPTS.FIT.BDRD.Services.Catalog.Infrastructure
 #nullable disable
 {
     public class CatalogRepository : ICatalogRepository

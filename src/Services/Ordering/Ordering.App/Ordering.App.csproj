@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>ECom.Services.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <RootNamespace>FPTS.FIT.BDRD.Services.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,9 +19,13 @@
     <PackageReference Include="Disruptor" Version="4.0.0" />
     <PackageReference Include="FluentValidation" Version="10.4.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.4.0" />
-    <PackageReference Include="FPTS.EventBus.Kafka" Version="1.0.0" />
-    <PackageReference Include="FPTS.Logger.Kafka" Version="1.0.0" />
+    <PackageReference Include="FPTS.EventBus.Kafka" Version="1.0.1" />
+    <PackageReference Include="FPTS.Logger.Kafka" Version="1.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.4" />
     <PackageReference Include="NetMQ" Version="4.0.1.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />

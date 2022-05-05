@@ -1,6 +1,6 @@
-﻿using ECom.Services.Ordering.App.Application.Queries;
-using ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate;
-using ECom.Services.Ordering.Infrastructure;
+﻿using FPTS.FIT.BDRD.Services.Ordering.App.Application.Queries;
+using FPTS.FIT.BDRD.Services.Ordering.Domain.AggregateModels.OrderAggregate;
+using FPTS.FIT.BDRD.Services.Ordering.Infrastructure;
 
 namespace Ordering.Tests.Unit.Application
 {

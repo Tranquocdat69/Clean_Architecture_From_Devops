@@ -1,4 +1,4 @@
-namespace ECom.Services.Ordering.App.Application.Validations
+namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.Validations
 {
     public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     {

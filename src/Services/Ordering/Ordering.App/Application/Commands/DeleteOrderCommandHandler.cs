@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.Application.Commands
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.Commands
 {
     public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, bool>
     {

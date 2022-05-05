@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.Application.DomainEventHandlers.OrderRejected
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.DomainEventHandlers.OrderRejected
 {
     public class ConvensionWhenOrderRejectedDomainEventHandler : IDomainEventHandler<OrderRejectedDomainEvent>
     {

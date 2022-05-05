@@ -1,9 +1,9 @@
-﻿namespace ECom.Services.Ordering.Infrastructure
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.Infrastructure
 #nullable disable
 {
     public class OrderDbContext : DbContext, IUnitOfWork
     {
-        public const string DEFAULT_SCHEMA = "ordering";
+        public const string DEFAULT_SCHEMA = "ORDERING";
         private readonly IMediator _mediator;
 
         public DbSet<Order> Orders { get; set; }

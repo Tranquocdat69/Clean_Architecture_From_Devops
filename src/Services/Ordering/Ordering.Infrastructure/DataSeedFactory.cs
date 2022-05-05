@@ -1,16 +1,25 @@
-﻿namespace ECom.Services.Ordering.Infrastructure
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.Infrastructure
 {
     public class DataSeedFactory
     {
-        public Task CreateSeed(OrderDbContext context, ILogger<DataSeedFactory> logger)
+        public Task CreateSeed(OrderDbContext context, ILogger<DataSeedFactory> logger, IOrderRepository repository)
         {
             var policy = CreatePolicy(logger, nameof(DataSeedFactory));
             policy.ExecuteAsync(() => {
                 // Thêm data seed ở đây
                 // Order hiện tại ko cần
+                AddDataToCache(context.Orders, repository);
                 return Task.CompletedTask;
             });
             return Task.CompletedTask;  
+        }
+
+        private void AddDataToCache(IEnumerable<Order> orders, IOrderRepository repository)
+        {
+            foreach(var order in orders)
+            {
+                repository.Add(order);
+            }
         }
 
         private AsyncRetryPolicy CreatePolicy(ILogger<DataSeedFactory> logger, string prefix, int retries = 3)

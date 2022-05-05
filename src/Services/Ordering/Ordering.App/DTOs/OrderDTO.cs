@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.DTOs
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.DTOs
 {
     public class OrderDTO
     {

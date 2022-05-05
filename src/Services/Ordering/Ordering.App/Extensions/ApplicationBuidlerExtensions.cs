@@ -1,4 +1,5 @@
-﻿namespace ECom.Services.Ordering.App.Extensions
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Extensions
+#nullable disable
 {
     public static class ApplicationBuidlerExtensions
     {
@@ -7,7 +8,10 @@
             return host
                 .UseDbCobntextMigration<OrderDbContext>((context, services) =>
                 {
-                    var env = services.GetService<IHostEnvironment>();
+                    var env        = services.GetService<IHostEnvironment>();
+                    var repository = services.GetService<IOrderRepository>();
+                    var logger     = services.GetService<ILogger<DataSeedFactory>>();
+                    new DataSeedFactory().CreateSeed(context, logger, repository);
                 });
         }
 

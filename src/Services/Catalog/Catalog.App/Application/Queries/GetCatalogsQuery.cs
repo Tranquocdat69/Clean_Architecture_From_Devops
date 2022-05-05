@@ -1,7 +1,7 @@
-﻿using ECom.Services.Catalog.App.Application.DTOs;
+﻿using FPTS.FIT.BDRD.Services.Catalog.App.Application.DTOs;
 using MediatR;
 
-namespace ECom.Services.Catalog.App.Application.Queries
+namespace FPTS.FIT.BDRD.Services.Catalog.App.Application.Queries
 {
     public class GetCatalogsQuery : IRequest<IEnumerable<CatalogDTO>>
     {

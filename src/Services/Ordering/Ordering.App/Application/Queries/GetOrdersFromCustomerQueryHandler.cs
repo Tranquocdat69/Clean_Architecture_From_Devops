@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.Application.Queries
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.Queries
 {
     public class GetOrdersFromCustomerQueryHandler : IRequestHandler<GetOrdersFromCustomerQuery, List<OrderDTO>>
     {

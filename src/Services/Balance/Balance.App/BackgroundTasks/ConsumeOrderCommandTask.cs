@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Balance.App.BackgroundTasks
+﻿namespace FPTS.FIT.BDRD.Services.Balance.App.BackgroundTasks
 {
     public class ConsumeOrderCommandTask
     {

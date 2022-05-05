@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.App.Application.Behaviors
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.Behaviors
 #nullable disable
 {
     public class LoggerBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 

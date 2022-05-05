@@ -1,4 +1,4 @@
-﻿namespace ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.Domain.AggregateModels.OrderAggregate
 #nullable disable
 {
     public class Address : ValueObject

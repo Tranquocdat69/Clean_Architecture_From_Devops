@@ -1,4 +1,6 @@
-﻿namespace ECom.Services.Ordering.App.Extensions
+﻿using System.Reflection;
+
+namespace FPTS.FIT.BDRD.Services.Ordering.App.Extensions
 #nullable disable
 {
     public static class ServiceCollectionExtensions
@@ -9,6 +11,7 @@
             return services
                 .AddHostedService<ReceiveReplyTasks>()
                 .AddMediatorConfiguration()
+                .AddConfigurationOptions(configuration)
                 .AddKafkaConfiguration(configuration)
                 .AddLoggerConfiguration(configuration)
                 .AddPersistanceConfiguration(configuration)
@@ -39,15 +42,31 @@
         {
             #region DbContext Configuration
             var dbConnectionString = configuration.GetConnectionString(c_dbConnectionKey);
-            services.AddDbContext<OrderDbContext>(options =>
+            services.AddDbContext<OrderDbContext>((sp, options) =>
             {
-                if(dbConnectionString == null)
+                var settings = string.IsNullOrEmpty(dbConnectionString) ? new() : sp.GetRequiredService<IOptions<OrderingSettings>>().Value;
+                switch (settings.DatabaseType)
                 {
-                    options.UseInMemoryDatabase(c_dbConnectionKey);
-                }
-                else
-                {
-                    options.UseSqlServer(dbConnectionString);
+                    case DatabaseType.Oracle:
+                        options.UseOracle(dbConnectionString, oracleOptionsAction: oracleOptions =>
+                        {
+                            oracleOptions
+                            .MigrationsHistoryTable("__MyMigrationsHistory", OrderDbContext.DEFAULT_SCHEMA)
+                            .MigrationsAssembly(typeof(OrderingSettings).GetTypeInfo().Assembly.GetName().Name);
+                        });
+                        break;
+                    case DatabaseType.Mssql:
+                        options.UseSqlServer(dbConnectionString, sqlServerOptionsAction: sqlOptions =>
+                        {
+                            sqlOptions
+                            .MigrationsHistoryTable("__MyMigrationsHistory", OrderDbContext.DEFAULT_SCHEMA)
+                            .MigrationsAssembly(typeof(OrderingSettings).GetTypeInfo().Assembly.GetName().Name)
+                            .EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                        });
+                        break;
+                    default:
+                        options.UseInMemoryDatabase(c_dbConnectionKey);
+                        break;
                 }
             });
             #endregion
@@ -80,6 +99,11 @@
         private static IServiceCollection AddScopeService(this IServiceCollection services)
         {
             services.AddScoped<IOrderRepository, OrderRepository>();
+            return services;
+        }
+        private static IServiceCollection AddConfigurationOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<OrderingSettings>(configuration.GetSection("OrderingSetting"));
             return services;
         }
     }
