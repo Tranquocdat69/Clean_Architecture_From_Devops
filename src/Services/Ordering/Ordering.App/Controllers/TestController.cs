@@ -39,14 +39,6 @@ namespace FPTS.FIT.BDRD.Services.Ordering.App.Controllers
             return Ok(result);
         }
 
-        [HttpGet("get_order_of_customer")]
-        public async Task<IActionResult> GetOrdersOfCustomer(int customerId)
-        {
-            var query = new GetOrdersFromCustomerQuery(customerId);
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
         [HttpGet]
         public IActionResult TestAddOrder()
         {

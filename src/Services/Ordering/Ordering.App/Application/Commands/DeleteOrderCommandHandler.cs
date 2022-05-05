@@ -2,37 +2,19 @@
 {
     public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, bool>
     {
-        private readonly IPublisher<ProducerData<string, string>> _publisher;
-        private readonly IOrderRepository _repository;
-        private readonly string _persistanceTopic;
-        private const string c_keyCommand = "DELETE";
+        private readonly IInMemoryOrderStore _orderStore;
 
-        public DeleteOrderCommandHandler(
-            IPublisher<ProducerData<string, string>> publisher, 
-            IOrderRepository repository,
-            IConfiguration configuration)
+        public DeleteOrderCommandHandler(IInMemoryOrderStore orderStore)
         {
-            _publisher  = publisher;
-            _repository = repository;
-            _persistanceTopic = configuration.GetSection("Kafka")?["CommandTopic"] ?? "order-persistent-topic";
+            _orderStore = orderStore;
         }
-        public Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var result = _repository.Remove(request.OrderId);
-            if (result)
-            {
-                PublishToKafka(request.OrderId);
-            }
-            return Task.FromResult(result);
-        }
-
-        private void PublishToKafka(string orderId)
-        {
-            ProducerData<string, string> produceData = new ProducerData<string, string>(
-               value: orderId,
-               key: c_keyCommand,
-               topic: _persistanceTopic);
-            _publisher.Publish(produceData);
+            var order = _orderStore.GetOrder(request.OrderId);
+            order.SetOrderRemoved();
+            await _orderStore.DispatchDomainEvent(order);
+            var result = _orderStore.Remove(request.OrderId);
+            return result;
         }
     }
 }

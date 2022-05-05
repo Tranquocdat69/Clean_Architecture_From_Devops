@@ -18,6 +18,7 @@ public class Order : BaseEntity, IAggregateRoot
 
     protected Order()
     {
+        Id = DateTime.Now.ToString("yyyyMMddHHmmssffffff");
         _orderItems = new List<OrderItem>();
     }
 
@@ -53,6 +54,12 @@ public class Order : BaseEntity, IAggregateRoot
     public void SetOrderConfirmed()
     {
         var @event = new OrderConfirmedDomainEvent(this);
+        AddDomainEvent(@event);
+    }
+
+    public void SetOrderRemoved()
+    {
+        var @event = new OrderRemovedDomainEvent(this);
         AddDomainEvent(@event);
     }
 

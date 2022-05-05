@@ -98,6 +98,7 @@ namespace FPTS.FIT.BDRD.Services.Ordering.App.Extensions
         }
         private static IServiceCollection AddScopeService(this IServiceCollection services)
         {
+            services.AddScoped<IInMemoryOrderStore, InMemoryOrderStore>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             return services;
         }

@@ -5,7 +5,7 @@
     {
         private readonly RingBuffer<CreateOrderRingEvent> _ring;
         private readonly IRequestManager<string> _requestManagement;
-        private readonly IOrderRepository _repository;
+        private readonly IInMemoryOrderStore _orderStore;
         private readonly IMediator _mediator;
         private readonly string[] _keys = new[] { "catalog", "balance" };
 
@@ -13,11 +13,11 @@
             IMediator mediator,
             RingBuffer<CreateOrderRingEvent> ring,
             IRequestManager<string> requestManager, 
-            IOrderRepository repository) 
+            IInMemoryOrderStore orderStore) 
         {
             _ring              = ring;
             _requestManagement = requestManager;
-            _repository        = repository;
+            _orderStore        = orderStore;
             _mediator          = mediator;
         }
         public async Task<ResponseData> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@
 
             var res = GetResponseData(rs.Cast<ResponseData>());
 
-            ResponseChecking(order, res);
+            await ResponseCheckingAsync(order, res);
 
             return res;
         }
@@ -95,21 +95,21 @@
             return response;
         }
 
-        private void ResponseChecking(Order order, ResponseData response)
+        private async Task ResponseCheckingAsync(Order order, ResponseData response)
         {
             // Nếu sử lý ở 2 service thành công thì set order confirmed 
             // Nếu thất bại thì set order reject
-            if (response.IsSuccess)
+            if (!response.IsSuccess)
             {
                 order.SetOrderConfirmed();
-                _repository.Add(order);
+                _orderStore.Add(order.Id,order);
             }
             else
             {
                 //var topic = balanceRequestId.Equals(res.RequestId) ? _commandTopic["Balance"] : _commandTopic["Catalog"];
                 order.SetOrderRejected(response.Convension);
-                _mediator.DispatchDomainEventsAsync(order).Wait();
             }
+            await _orderStore.DispatchDomainEvent(order);
         }
 
         private async Task<object[]> WaitingResponseReceived(Task<object>[] tasks)

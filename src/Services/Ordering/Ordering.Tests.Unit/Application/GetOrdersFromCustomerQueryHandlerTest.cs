@@ -6,12 +6,12 @@ namespace Ordering.Tests.Unit.Application
 {
     public class GetOrdersFromCustomerQueryHandlerTest
     {
-        private readonly OrderRepository _repository;
+        private readonly InMemoryOrderStore _repository;
 
         public GetOrdersFromCustomerQueryHandlerTest()
         {
             var mediator = new Mock<IMediator>();
-            _repository = new OrderRepository(mediator.Object);
+            _repository = new InMemoryOrderStore(mediator.Object);
         }
 
         [Fact]

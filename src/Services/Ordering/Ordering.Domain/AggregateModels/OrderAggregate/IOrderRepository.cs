@@ -1,12 +1,12 @@
 ﻿namespace FPTS.FIT.BDRD.Services.Ordering.Domain.AggregateModels.OrderAggregate
 {
-    public interface IOrderRepository
+    public interface IOrderRepository : IRepositoryBase<Order>
     {
-        void Clear();
+        void Update(Order order);
         void Add(Order order);
-        bool Remove(string orderId);
+        bool Delete(Order t);
         Order GetOrder(string id);
-        IEnumerable<OrderItem> GetItemsOfOrder(string id);
-        IEnumerable<Order> GetOrders();
+        IEnumerable<OrderItem> GetItems(string id);
+        IEnumerable<Order> GetAll();
     }
 }
