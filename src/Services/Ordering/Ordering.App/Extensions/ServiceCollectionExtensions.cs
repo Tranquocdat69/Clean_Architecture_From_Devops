@@ -11,7 +11,7 @@
                 .AddMediatorConfiguration()
                 .AddKafkaConfiguration(configuration)
                 .AddLoggerConfiguration(configuration)
-                .AddPersistentConfiguration(configuration)
+                .AddPersistanceConfiguration(configuration)
                 .AddOrderRingBuffer(configuration)
                 .AddScopeService();
         }
@@ -35,7 +35,7 @@
             });
             return services;
         }
-        private static IServiceCollection AddPersistentConfiguration(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddPersistanceConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             #region DbContext Configuration
             var dbConnectionString = configuration.GetConnectionString(c_dbConnectionKey);

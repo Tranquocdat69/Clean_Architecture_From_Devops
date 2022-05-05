@@ -20,8 +20,8 @@ namespace ECom.Services.Ordering.App.Extensions
                 disruptor
                 .HandleEventsWith(GetSerializeHandlers(replyAddress, ringConfig.NumberOfSerializeHandlers))
                 .HandleEventsWith(
-                    new BalanceIntegrationEventsHandler(producer, balanceCommandTopic), 
-                    new CatalogIntegrationEventsHandler(producer, catalogCommandTopic));
+                    new BalanceIntegrationHandler(producer, balanceCommandTopic), 
+                    new CatalogIntegrationHandler(producer, catalogCommandTopic));
                 return disruptor.Start();
             });
 

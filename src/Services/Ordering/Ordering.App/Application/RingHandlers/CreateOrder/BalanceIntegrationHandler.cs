@@ -1,12 +1,12 @@
 namespace ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder
 {
-    public class BalanceIntegrationEventsHandler : IRingHandler<CreateOrderRingEvent>
+    public class BalanceIntegrationHandler : IRingHandler<CreateOrderRingEvent>
     {
         private readonly IPublisher<ProducerData<string, string>> _publisher;
         private readonly string _topic;
         private const string c_keyCommand = "command";
 
-        public BalanceIntegrationEventsHandler(IPublisher<ProducerData<string, string>> publisher, string topic)
+        public BalanceIntegrationHandler(IPublisher<ProducerData<string, string>> publisher, string topic)
         {
             _publisher     = publisher;
             _topic             = topic;

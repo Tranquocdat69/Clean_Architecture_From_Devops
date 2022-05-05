@@ -1,12 +1,12 @@
 ﻿namespace ECom.Services.Ordering.App.Application.RingHandlers.CreateOrder
 {
-    public class CatalogIntegrationEventsHandler : IRingHandler<CreateOrderRingEvent>
+    public class CatalogIntegrationHandler : IRingHandler<CreateOrderRingEvent>
     {
         private readonly IPublisher<ProducerData<string, string>> _publisher;
         private readonly string _topic;
         private const string c_keyCommand = "command";
 
-        public CatalogIntegrationEventsHandler(IPublisher<ProducerData<string, string>> IKafkaProducer, string topic)
+        public CatalogIntegrationHandler(IPublisher<ProducerData<string, string>> IKafkaProducer, string topic)
         {
             _publisher         = IKafkaProducer;
             _topic             = topic;

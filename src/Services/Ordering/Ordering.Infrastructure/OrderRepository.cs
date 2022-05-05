@@ -48,5 +48,10 @@ namespace ECom.Services.Ordering.Infrastructure
             }
             return false;
         }
+
+        public void Clear()
+        {
+            s_dataStore.Clear();
+        }
     }
 }
