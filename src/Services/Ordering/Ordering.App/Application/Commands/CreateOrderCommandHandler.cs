@@ -37,7 +37,7 @@
             var balanceRequestId = requestId + " - " + _keys[1];
 
             // Sử lý với ring
-            RingHandlingAsync(order, balanceRequestId, catalogRequestId);
+            HandleRing(order, balanceRequestId, catalogRequestId);
 
             // Chờ có phản hồi thử 2 service bằng request Id
             var rs = await WaitingResponseReceived(new[]
@@ -53,7 +53,7 @@
             return res;
         }
 
-        private void RingHandlingAsync(Order order, string balanceRequestId, string catalogRequestId)
+        private void HandleRing (Order order, string balanceRequestId, string catalogRequestId)
         {
             // Lấy squence
             var sequence = _ring.Next();
@@ -99,7 +99,7 @@
         {
             // Nếu sử lý ở 2 service thành công thì set order confirmed 
             // Nếu thất bại thì set order reject
-            if (!response.IsSuccess)
+            if (response.IsSuccess)
             {
                 order.SetOrderConfirmed();
                 _orderStore.Add(order.Id,order);

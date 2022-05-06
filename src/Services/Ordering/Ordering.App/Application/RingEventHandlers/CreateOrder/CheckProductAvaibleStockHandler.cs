@@ -1,4 +1,4 @@
-﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.RingHandlers.CreateOrder
+﻿namespace FPTS.FIT.BDRD.Services.Ordering.App.Application.RingEventHandlers.CreateOrder
 {
     public class CheckProductAvaibleStockHandler : IRingHandler<CreateOrderRingEvent>
     {
