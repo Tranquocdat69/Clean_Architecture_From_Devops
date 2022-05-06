@@ -2,7 +2,7 @@
 {
     public class DataSeedFactory
     {
-        public async Task CreateSeed(OrderDbContext context, ILogger<DataSeedFactory> logger, IOrderRepository repository)
+        public async Task CreateSeed(OrderDbContext context, ILogger<DataSeedFactory> logger, IInMemoryOrderStore orderStore)
         {
             var policy = CreatePolicy(logger, nameof(DataSeedFactory));
             await policy.ExecuteAsync(async () => {
@@ -27,15 +27,15 @@
                     }
                     await context.SaveChangesAsync();
                 }
-                AddDataToCache(context.Orders, repository);
+                AddDataToCache(context.Orders, orderStore);
             });
         }
 
-        private void AddDataToCache(IEnumerable<Order> orders, IOrderRepository repository)
+        private void AddDataToCache(IEnumerable<Order> orders, IInMemoryOrderStore orderStore)
         {
             foreach(var order in orders)
             {
-                repository.Add(order);
+                orderStore.Add(order.Id,order);
             }
         }
 
