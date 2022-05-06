@@ -1,7 +1,11 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
+ENV http_proxy=http://proxy.fpts.com.vn:8080/
+ENV https_proxy=http://proxy.fpts.com.vn:8080/
+
 COPY "ECom.sln" "ECom.sln"
+COPY "docker-compose.dcproj" "docker-compose.dcproj"
 COPY "Services/Balance/Balance.App/Balance.App.csproj" "Services/Balance/Balance.App/Balance.App.csproj"
 COPY "Services/Balance/Balance.Domain/Balance.Domain.csproj" "Services/Balance/Balance.Domain/Balance.Domain.csproj"
 COPY "Services/Balance/Balance.Infrastructure/Balance.Infrastructure.csproj" "Services/Balance/Balance.Infrastructure/Balance.Infrastructure.csproj"
@@ -18,8 +22,7 @@ COPY "Services/Ordering/Ordering.Tests.Unit/Ordering.Tests.Unit.csproj" "Service
 
 COPY "Tests/Services/Application.FunctionalTests/Application.FunctionalTests.csproj" "Tests/Services/Application.FunctionalTests/Application.FunctionalTests.csproj"
 
-COPY "	" .
-RUN dotnet restore "Services/Balance/Balance.App/Balance.App.csproj" -r linux-musl-x64
+RUN dotnet restore "ECom.sln" -r linux-musl-x64
 COPY . .
 
 WORKDIR /src/Services/Balance
