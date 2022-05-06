@@ -1,38 +1,37 @@
-﻿using ECom.BuildingBlocks.SharedKernel.Interfaces;
-using Microsoft.Extensions.Logging;
-
-namespace ECom.Services.Ordering.Infrastructure
+﻿namespace ECom.Services.Ordering.Infrastructure
+#nullable disable
 {
     public class OrderRepository : IOrderRepository
     {
-        private readonly OrderDbContext _context;
-        private readonly ILogger<OrderRepository> _logger;
+        private int _orderId { get; set; }
 
-        public IUnitOfWork UnitOfWork
+        private static IDictionary<int, Order> s_dataStore;
+        private readonly IMediator _mediator;
+
+        public OrderRepository(IMediator mediator)
         {
-            get
-            {
-                return _context;
-            }
+            s_dataStore = s_dataStore ?? new Dictionary<int, Order>();
+            _mediator   = mediator;
         }
-        public OrderRepository(OrderDbContext context, ILogger<OrderRepository> logger)
+        public void Add(int id, Order t)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _logger = logger;
+            _mediator.DispatchDomainEventsAsync(t).Wait();
+            s_dataStore.Add(id, t);
         }
 
-        public bool Add(Order t)
+        public bool Exist(int id)
         {
-            try
-            {
-                _context.Orders.Add(t);
-                return true;
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.StackTrace);
-                return false;
-            }
+            return s_dataStore.TryGetValue(id, out Order t);
+        }
+
+        public Order GetT(int id)
+        {
+            return s_dataStore[id];
+        }
+
+        public bool Add(Order t, int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

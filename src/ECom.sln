@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{12DFBAE9-AEB4-46A7-92F1-CF6F7BBB2EB0}"
-	ProjectSection(SolutionItems) = preProject
-		Readme.md = Readme.md
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4755B6A7-FB9E-4C44-B20B-03309E04A47B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9444105D-2799-499A-8304-76B2BDF43ADB}"
@@ -65,6 +60,24 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Balance.FunctionalTests", "Services\Balance\Balance.FunctionalTests\Balance.FunctionalTests.csproj", "{49C8F55B-5A0E-48F9-B4CB-C7EC68B39A7C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Balance.UnitTests", "Services\Balance\Balance.UnitTests\Balance.UnitTests.csproj", "{04EAF9E2-FEF0-413E-9439-190093FEF2A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Persistent", "Services\Ordering\Ordering.Persistent\Ordering.Persistent.csproj", "{9E1F401E-5F40-46A6-B8A4-9A5487391E7F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Balance.Persistent", "Services\Balance\Balance.Persistent\Balance.Persistent.csproj", "{8761DA6E-F064-44C4-8C6D-B78B3B5FF58D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog (2)", "Catalog (2)", "{28EF09EB-F3D0-455E-9A79-6E11BBDA74D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F4FCDA0E-BBAE-40AE-88BB-EB8A042C5712}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Persistent", "Services\Catalog\Catalog.Persistent\Catalog.Persistent.csproj", "{DCA4DA57-77A9-436F-A276-68549484F48B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D7A1FBF-A592-46CF-8AFB-106635CC71DD}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Beta", "Beta", "{5AE34DB0-D70B-4777-9148-B8DB26D42A4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,6 +153,18 @@ Global
 		{04EAF9E2-FEF0-413E-9439-190093FEF2A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04EAF9E2-FEF0-413E-9439-190093FEF2A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04EAF9E2-FEF0-413E-9439-190093FEF2A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E1F401E-5F40-46A6-B8A4-9A5487391E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E1F401E-5F40-46A6-B8A4-9A5487391E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E1F401E-5F40-46A6-B8A4-9A5487391E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E1F401E-5F40-46A6-B8A4-9A5487391E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8761DA6E-F064-44C4-8C6D-B78B3B5FF58D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8761DA6E-F064-44C4-8C6D-B78B3B5FF58D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8761DA6E-F064-44C4-8C6D-B78B3B5FF58D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8761DA6E-F064-44C4-8C6D-B78B3B5FF58D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCA4DA57-77A9-436F-A276-68549484F48B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCA4DA57-77A9-436F-A276-68549484F48B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCA4DA57-77A9-436F-A276-68549484F48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCA4DA57-77A9-436F-A276-68549484F48B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,6 +196,11 @@ Global
 		{AFDE5598-3CC7-4A9E-9B41-F9AB083B8BD3} = {C8D6925D-8D06-496A-BA29-18A43D62A34A}
 		{49C8F55B-5A0E-48F9-B4CB-C7EC68B39A7C} = {AFDE5598-3CC7-4A9E-9B41-F9AB083B8BD3}
 		{04EAF9E2-FEF0-413E-9439-190093FEF2A9} = {AFDE5598-3CC7-4A9E-9B41-F9AB083B8BD3}
+		{9E1F401E-5F40-46A6-B8A4-9A5487391E7F} = {642918E7-9407-44FE-B458-47FB8BCDFC6C}
+		{28EF09EB-F3D0-455E-9A79-6E11BBDA74D7} = {60C78D6E-0C23-4869-A4E5-4D5A20413804}
+		{F4FCDA0E-BBAE-40AE-88BB-EB8A042C5712} = {28EF09EB-F3D0-455E-9A79-6E11BBDA74D7}
+		{DCA4DA57-77A9-436F-A276-68549484F48B} = {28EF09EB-F3D0-455E-9A79-6E11BBDA74D7}
+		{5AE34DB0-D70B-4777-9148-B8DB26D42A4B} = {4755B6A7-FB9E-4C44-B20B-03309E04A47B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68AF35CB-5D9E-4060-B063-1C85A4AC9017}

@@ -65,20 +65,15 @@ namespace ECom.Services.Ordering.App.Extensions
         }
         private static IServiceCollection AddKafkaConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<InMemoryRequestManagement>();
-            services.AddSingleton(sp => {
-                KafkaProducerConfig config = new KafkaProducerConfig
-                {
+            var config = new KafkaProducerConfig{
                     BootstrapServers = configuration["Kafka:BootstrapServers"]
                 };
+            services.AddSingleton<IRequestManager,InMemoryRequestManager>();
+            services.AddSingleton<IPublisher<Null, string>, KafkaProducer<Null, string>>(sp => {
                 return new KafkaProducer<Null, string>(config);
             });
 
-            services.AddSingleton(sp => {
-                KafkaProducerConfig config = new KafkaProducerConfig
-                {
-                    BootstrapServers = configuration["Kafka:BootstrapServers"]
-                };
+            services.AddSingleton<IPublisher<string, string>, KafkaProducer<string, string>>(sp => {
                 return new KafkaProducer<string, string>(config);
             });
             return services;

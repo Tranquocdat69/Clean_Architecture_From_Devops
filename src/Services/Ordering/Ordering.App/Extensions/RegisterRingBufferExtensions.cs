@@ -11,7 +11,7 @@ namespace ECom.Services.Ordering.App.Extensions
                 var mediator = sp.GetRequiredService<IMediator>();
                 var disruptor = new Disruptor.Dsl.Disruptor<CreateOrderEvent>(() => new CreateOrderEvent(), 2048, TaskScheduler.Current, producerType: ProducerType.Multi, new BlockingWaitStrategy());
                 var commandTopics = configuration.GetSection("Kafka")?.GetSection("CommandTopic");//["Balance"] ?? "balance-command-topic"
-                var producer = sp.GetRequiredService<KafkaProducer<string,string>>();
+                var producer = sp.GetRequiredService<IPublisher<string, string>>();
                 var replyAddress = configuration["ExternalAddress"];
                 var balanceCommandTopic = commandTopics?["Balance"] ?? "balance-command-topic";
                 var catalogCommandTopic = commandTopics?["Catalog"] ?? "catalog-command-topic";

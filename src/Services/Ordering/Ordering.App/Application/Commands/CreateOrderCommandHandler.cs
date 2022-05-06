@@ -5,17 +5,17 @@ namespace ECom.Services.Ordering.App.Application.Commands
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, ResponseData>
     {
         private readonly RingBuffer<CreateOrderEvent> _ring;
-        private readonly InMemoryRequestManagement _requestManagement;
-        private readonly IMediator _mediator;
+        private readonly IRequestManager _requestManagement;
+        private readonly IOrderRepository _repository;
 
         public CreateOrderCommandHandler(
-            RingBuffer<CreateOrderEvent> ring, 
-            InMemoryRequestManagement requestManagement, 
-            IMediator mediator) 
+            RingBuffer<CreateOrderEvent> ring,
+            IRequestManager requestManager, 
+            IOrderRepository repository) 
         {
             _ring              = ring;
-            _requestManagement = requestManagement;
-            _mediator          = mediator;
+            _requestManagement = requestManager;
+            _repository        = repository;
         }
         public async Task<ResponseData> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
@@ -47,7 +47,7 @@ namespace ECom.Services.Ordering.App.Application.Commands
                 order.SetOrderRejected(res.Convension);
             }
             // Thực hiện DomainEvent
-            await _mediator.DispatchDomainEventsAsync(order);
+            _repository.Add(1,order);
 
             return res;
         }

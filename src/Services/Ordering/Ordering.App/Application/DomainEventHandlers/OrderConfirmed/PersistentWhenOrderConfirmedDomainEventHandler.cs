@@ -2,16 +2,18 @@
 {
     public class PersistentWhenOrderConfirmedDomainEventHandler : IDomainEventHandler<OrderConfirmedDomainEvent>
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IPublisher<Null, string> _publisher;
+        private readonly string _persistentTopic;
 
-        public PersistentWhenOrderConfirmedDomainEventHandler(IOrderRepository orderRepository)
+        public PersistentWhenOrderConfirmedDomainEventHandler(IPublisher<Null, string> publisher, IConfiguration configuration)
         {
-            _orderRepository = orderRepository;
+            _publisher   = publisher;
+            _persistentTopic = configuration.GetSection("Kafka")["PersistentTopic"];
         }
-        public async Task Handle(OrderConfirmedDomainEvent notification, CancellationToken cancellationToken)
+        public Task Handle(OrderConfirmedDomainEvent notification, CancellationToken cancellationToken)
         {
-            _orderRepository.Add(notification.Order);
-            await _orderRepository.UnitOfWork.SaveChangesAsync();
+            _publisher.Produce(new Message<Null, string> { Value = notification.Order.ToString() }, _persistentTopic, 0);
+            return Task.CompletedTask;
         }
     }
 }

@@ -4,13 +4,13 @@
     {
         private readonly int _socketPort;
         private readonly string _localhostIP;
-        private readonly InMemoryRequestManagement _requestManagement;
+        private readonly IRequestManager _requestManager;
 
-        public ReceiveReplyTasks(InMemoryRequestManagement requestManagement, IConfiguration configuration)
+        public ReceiveReplyTasks(IRequestManager requestManager, IConfiguration configuration)
         {
             _socketPort        = int.Parse(configuration["ExternalAddress"].Split(':')[1]);
             _localhostIP       = configuration["LocalhostIP"];
-            _requestManagement = requestManagement;
+            _requestManager = requestManager;
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -26,7 +26,7 @@
                         if (!string.IsNullOrEmpty(replyStr))
                         {
                             var replyData = ResponseData.FromString(replyStr);
-                            _requestManagement.SetResponse(replyData.RequestId, replyData);
+                            _requestManager.SetResponse(replyData.RequestId, replyData);
                         }
                     }
                 }

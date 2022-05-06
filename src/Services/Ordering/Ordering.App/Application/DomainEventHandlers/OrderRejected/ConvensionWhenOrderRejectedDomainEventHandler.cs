@@ -2,12 +2,12 @@
 {
     public class ConvensionWhenOrderRejectedDomainEventHandler : IDomainEventHandler<OrderRejectedDomainEvent>
     {
-        private readonly KafkaProducer<string, string> _kafkaProducer;
+        private readonly IPublisher<string, string> _publisher;
         private const string KEY_COMMAND = "convension";
 
-        public ConvensionWhenOrderRejectedDomainEventHandler(KafkaProducer<string,string> kafkaProducer)
+        public ConvensionWhenOrderRejectedDomainEventHandler(IPublisher<string, string> IKafkaProducer)
         {
-            _kafkaProducer = kafkaProducer;
+            _publisher = IKafkaProducer;
         }
         public Task Handle(OrderRejectedDomainEvent notification, CancellationToken cancellationToken)
         {
@@ -17,14 +17,14 @@
                 switch (notification.CompensionTopic)
                 {
                     case "Balance":
-                        integration = new UpdateCreditLimitIntegration(
+                        integration = new UpdateCreditLimitIntegrationEvent(
                             userId: notification.CustomerId,
                             totalCost: notification.TotalCost,
                             replyAddress: ""
                         );
                         break;
                     case "Catalog":
-                        integration = new UpdateProductAvaibleStockIntegration(
+                        integration = new UpdateProductAvaibleStockIntegrationEvent(
                             items: notification.Items,
                             replyAddress: ""
                         );
@@ -32,7 +32,8 @@
                     default:
                         throw new OrderingDomainException("Undefined arrgument "+nameof(notification.CompensionTopic));
                 }
-                _kafkaProducer.Produce(new Message<string, string> { Value = integration.ToString(), Key = KEY_COMMAND }, notification.CompensionTopic);
+                string messageValue = JsonSerializer.Serialize(integration);
+                _publisher.Produce(new Message<string, string> { Value = messageValue, Key = KEY_COMMAND }, notification.CompensionTopic);
 
             }
             return Task.CompletedTask;

@@ -1,7 +1,6 @@
 ﻿namespace ECom.Services.Ordering.Domain.AggregateModels.OrderAggregate
 {
-    public interface IOrderRepository : IRepositoryBase<Order>
+    public interface IOrderRepository : IKeyValuePairRepository<Order, int>
     {
-        bool Add(Order order);
     }
 }
