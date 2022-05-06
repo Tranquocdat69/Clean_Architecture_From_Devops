@@ -1,4 +1,4 @@
-﻿using FPTS.FIT.BDRD.Services.Ordering.App.Application.RingHandlers.CreateOrder;
+﻿using FPTS.FIT.BDRD.Services.Ordering.App.Application.RingEventHandlers.CreateOrder;
 
 namespace FPTS.FIT.BDRD.Services.Ordering.App.Extensions
 {
