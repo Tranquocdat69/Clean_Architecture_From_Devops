@@ -8,6 +8,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Remove="C:\Users\FITTHUCTAP20\.nuget\packages\fpts.eventbus.kafka\1.0.1\contentFiles\any\net6.0\fpts.png" />
+	  <Content Remove="C:\Users\FITTHUCTAP20\.nuget\packages\fpts.logger.kafka\1.0.1\contentFiles\any\net6.0\fpts.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Confluent.Kafka" Version="1.8.2" />
 		<PackageReference Include="Disruptor" Version="4.0.0" />
 		<PackageReference Include="FPTS.EventBus.Kafka" Version="1.0.1" />
