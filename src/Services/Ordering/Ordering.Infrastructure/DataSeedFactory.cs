@@ -2,16 +2,33 @@
 {
     public class DataSeedFactory
     {
-        public Task CreateSeed(OrderDbContext context, ILogger<DataSeedFactory> logger, IOrderRepository repository)
+        public async Task CreateSeed(OrderDbContext context, ILogger<DataSeedFactory> logger, IOrderRepository repository)
         {
             var policy = CreatePolicy(logger, nameof(DataSeedFactory));
-            policy.ExecuteAsync(() => {
+            await policy.ExecuteAsync(async () => {
                 // Thêm data seed ở đây
                 // Order hiện tại ko cần
+                if (!context.Orders.Any())
+                {
+                    Random random = new();
+                    for (int i = 0; i < 10; i++)
+                    {
+                        var address = new Address(i + " - Street", i + " - City");
+                        // Tạo Order
+                        var order = new Order((i % 2 == 0) ? 1 : 2, address);
+                        // Thêm item vào order
+                        var itemCount = random.Next(2, 5);
+                        for (int j = 0; j < itemCount; j++)
+                        {
+                            order.AddOrderItem(j, i + " - Proname", (j + 1) * 1000, 0, "", random.Next(5, 10));
+                        }
+                        order.ClearDomainEvents();
+                        context.Orders.Add(order);
+                    }
+                    await context.SaveChangesAsync();
+                }
                 AddDataToCache(context.Orders, repository);
-                return Task.CompletedTask;
             });
-            return Task.CompletedTask;  
         }
 
         private void AddDataToCache(IEnumerable<Order> orders, IOrderRepository repository)

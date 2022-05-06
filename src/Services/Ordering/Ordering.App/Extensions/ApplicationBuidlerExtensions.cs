@@ -11,7 +11,7 @@
                     var env        = services.GetService<IHostEnvironment>();
                     var repository = services.GetService<IOrderRepository>();
                     var logger     = services.GetService<ILogger<DataSeedFactory>>();
-                    new DataSeedFactory().CreateSeed(context, logger, repository);
+                    new DataSeedFactory().CreateSeed(context, logger, repository).Wait();
                 });
         }
 

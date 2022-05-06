@@ -19,8 +19,8 @@
             if (IsMemberOfHandler(data.UserId))
             {
                 var result = Task.WhenAll(
-                    GetCatalogIntegrationEventsEvent(data.Items),
-                    GetBalanceIntegrationEventsEvent(data.TotalCost, data.UserId)).Result;
+                    GetCatalogIntegrationEvent(data.Items),
+                    GetBalanceIntegrationEvent(data.TotalCost, data.UserId)).Result;
 
                 data.JsonData["catalog"] = result[0];
                 data.JsonData["balance"] = result[1];
@@ -37,9 +37,8 @@
             return s_handlerManager[_handlerId].Contains(userId);
         }
 
-        private Task<string> GetCatalogIntegrationEventsEvent(Dictionary<int, int> items)
+        private Task<string> GetCatalogIntegrationEvent(Dictionary<int, int> items)
         {
-
             var IntegrationEvents = new UpdateProductAvaibleStockIntegrationEvent(
                 items: items,
                 replyAddress: _replyAddress
@@ -47,7 +46,7 @@
             return Task.FromResult(JsonSerializer.Serialize(IntegrationEvents));
         }
 
-        private Task<string> GetBalanceIntegrationEventsEvent(decimal total, int userId)
+        private Task<string> GetBalanceIntegrationEvent(decimal total, int userId)
         {
 
             var IntegrationEvents = new UpdateCreditLimitIntegrationEvent(
