@@ -9,9 +9,9 @@
                 .UseDbCobntextMigration<OrderDbContext>((context, services) =>
                 {
                     var env        = services.GetService<IHostEnvironment>();
-                    var store      = services.GetService<IInMemoryOrderStore>();
+                    var repository = services.GetService<IOrderRepository>();
                     var logger     = services.GetService<ILogger<DataSeedFactory>>();
-                    new DataSeedFactory().CreateSeed(context, logger, store).Wait();
+                    new DataSeedFactory().CreateSeed(context, logger, repository).Wait();
                 });
         }
 
